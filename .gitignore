@@ -1,0 +1,18 @@
+﻿# ビルド結果
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+[Dd]ebug*/
+[Rr]elease*/
+
+# Visual Studio固有のファイル
+.vs/
+*.csproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Windowsイメージファイル
+Thumbs.db
+ehthumbs.db
