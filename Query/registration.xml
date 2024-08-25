@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<script>
+	<sql id="electricity_bill">
+		INSERT INTO electricity_bill
+		(year, month, total_cost, basic_price, price1,
+		price2, price3, adjust_price, discount_price, re_energy_charge,
+		usage_period_from, usage_period_to, usage_amount)
+		VALUES
+		(@year, @month, @total_cost, @basic_price, @price1,
+		@price2, @price3, @adjust_price, @discount_price, @re_energy_charge,
+		@usage_period_from, @usage_period_to, @usage_amount);
+	</sql>
+</script>

@@ -1,0 +1,94 @@
+﻿# A5:ER FORMAT:18
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.19.2 Copyright © 1997 - 2024 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=sim4solar
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",2,"A4Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=2
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=5
+RDBMSTypeName=Microsoft SQL Server 2016
+GenerateComment=0
+BackupRestoreTempTable=0
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=electricity_bill
+LName=電気料金
+Comment=
+TableInnerOption=
+TableOption=
+Page=Main
+Left=100
+Top=100
+Field="年","year","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
+Field="月","month","INTEGER","NOT NULL",1,"","",$FFFFFFFF,""
+Field="電気料金合計","total_cost","INTEGER","NOT NULL",,"","",$FFFFFFFF,""
+Field="基本料金","basic_price","REAL","NOT NULL",,"","",$FFFFFFFF,""
+Field="電力量料金1","price1","REAL",,,"","",$FFFFFFFF,""
+Field="電力量料金2","price2","REAL",,,"","",$FFFFFFFF,""
+Field="電力量料金3","price3","REAL",,,"","",$FFFFFFFF,""
+Field="燃料費調整額","adjust_price","REAL",,,"","",$FFFFFFFF,""
+Field="セット割引額等","discount_price","REAL",,,"","",$FFFFFFFF,""
+Field="再エネ促進賦課金","re_energy_charge","INTEGER",,,"","",$FFFFFFFF,""
+Field="使用期間From","usage_period_from","TEXT",,,"","",$FFFFFFFF,""
+Field="使用期間To","usage_period_to","TEXT",,,"","",$FFFFFFFF,""
+Field="使用量[kWh]","usage_amount","INTEGER","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20240825151423
+Position="Main",100,100
+ZOrder=1
+
+[Entity]
+PName=power_generation_results
+LName=発電実績
+Comment=
+TableInnerOption=
+TableOption=
+Page=Main
+Left=400
+Top=100
+Field="年月日","target_date","TEXT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="発電電力量[kWh]","generate_amount","REAL",,,"","",$FFFFFFFF,""
+Field="消費電力量[kWh]","consumption_amount","REAL",,,"","",$FFFFFFFF,""
+Field="売電電力量[kWh]","sales_amount","REAL",,,"","",$FFFFFFFF,""
+Field="買電電力量[kWh]","purchased_amount","REAL",,,"","",$FFFFFFFF,""
+Field="充電電力量[kWh]","charge_amount","REAL",,,"","",$FFFFFFFF,""
+Field="放電電力量[kWh]","discharge_amount","REAL",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20240825151114
+Position="Main",400,100
+ZOrder=2
