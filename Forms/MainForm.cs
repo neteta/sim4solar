@@ -1,4 +1,7 @@
-﻿namespace sim4solar
+﻿using sim4solar.Forms;
+using System.Windows.Forms;
+
+namespace sim4solar
 {
 	public partial class MainForm : Form
 	{
@@ -19,6 +22,16 @@
 		private void SetTitle(string title)
 		{
 			lblTitle.Text = title;
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			ImportPowerGenerationResult result = new ImportPowerGenerationResult();
+			result.TopLevel = false;
+			SetTitle("発電実績取込");
+			splitContainer2.Panel2.Controls.Clear();
+			splitContainer2.Panel2.Controls.Add(result);
+			result.Show();
 		}
 	}
 }

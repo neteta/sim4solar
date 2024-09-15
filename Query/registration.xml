@@ -10,4 +10,13 @@
 		@price2, @price3, @adjust_price, @discount_price, @re_energy_charge,
 		@usage_period_from, @usage_period_to, @usage_amount);
 	</sql>
+
+	<sql id="power_generation_results">
+		INSERT INTO power_generation_results
+		(target_date, generate_amount, consumption_amount,
+		sales_amount, purchased_amount, charge_amount, discharge_amount)
+		VALUES
+		(@targetDate, @generateAmount, @consumptionAmount,
+		@salesAmount, @purchasedAmount, @chargeAmount, @dischargeAmount);
+	</sql>
 </script>
