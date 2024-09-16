@@ -90,13 +90,13 @@ namespace sim4solar.Forms
 						}
 
 						List<SqliteParameter> parameters = new List<SqliteParameter>();
-						parameters.Add(new SqliteParameter("targetDate", array[0]));
-						parameters.Add(new SqliteParameter("generateAmount", CommonCalc.GetDecimalValue(array[1])));
-						parameters.Add(new SqliteParameter("consumptionAmount", CommonCalc.GetDecimalValue(array[2])));
-						parameters.Add(new SqliteParameter("salesAmount", CommonCalc.GetDecimalValue(array[3])));
-						parameters.Add(new SqliteParameter("purchasedAmount", CommonCalc.GetDecimalValue(array[4])));
-						parameters.Add(new SqliteParameter("chargeAmount", CommonCalc.GetDecimalValue(array[5])));
-						parameters.Add(new SqliteParameter("dischargeAmount", CommonCalc.GetDecimalValue(array[6])));
+						parameters.Add(new SqliteParameter("targetDate", CommonUtil.GetStringWithoutDblQuot(array[0])));
+						parameters.Add(new SqliteParameter("generateAmount", CommonUtil.GetDecimalValue(array[1])));
+						parameters.Add(new SqliteParameter("consumptionAmount", CommonUtil.GetDecimalValue(array[2])));
+						parameters.Add(new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(array[3])));
+						parameters.Add(new SqliteParameter("purchasedAmount", CommonUtil.GetDecimalValue(array[4])));
+						parameters.Add(new SqliteParameter("chargeAmount", CommonUtil.GetDecimalValue(array[5])));
+						parameters.Add(new SqliteParameter("dischargeAmount", CommonUtil.GetDecimalValue(array[6])));
 
 						_ = DBAccess.Insert(insertSql, parameters.ToArray());
 					}

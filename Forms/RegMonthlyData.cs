@@ -133,8 +133,8 @@ namespace sim4solar
 			parameters.Add(new SqliteParameter("adjust_price", textBox5.Text));
 			parameters.Add(new SqliteParameter("discount_price", textBox6.Text));
 			parameters.Add(new SqliteParameter("re_energy_charge", textBox7.Text));
-			parameters.Add(new SqliteParameter("usage_period_from", getDate(dateTimePicker2.Value)));
-			parameters.Add(new SqliteParameter("usage_period_to", getDate(dateTimePicker3.Value)));
+			parameters.Add(new SqliteParameter("usage_period_from", CommonUtil.GetDate(dateTimePicker2.Value)));
+			parameters.Add(new SqliteParameter("usage_period_to", CommonUtil.GetDate(dateTimePicker3.Value)));
 			parameters.Add(new SqliteParameter("usage_amount", textBox8.Text));
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
@@ -148,11 +148,6 @@ namespace sim4solar
 		private int GetMonth()
 		{
 			return dateTimePicker1.Value.Month;
-		}
-
-		private string getDate(DateTime targetDate)
-		{
-			return targetDate.ToString("yyyy-MM-dd");
 		}
 	}
 }

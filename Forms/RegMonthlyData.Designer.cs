@@ -63,7 +63,7 @@
 			label1.Name = "label1";
 			label1.Size = new Size(55, 15);
 			label1.TabIndex = 0;
-			label1.Text = "対象年月";
+			label1.Text = "請求年月";
 			// 
 			// textBox1
 			// 
