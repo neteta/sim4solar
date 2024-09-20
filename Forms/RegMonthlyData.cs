@@ -125,17 +125,17 @@ namespace sim4solar
 			List<SqliteParameter> parameters = new List<SqliteParameter>();
 			parameters.Add(new SqliteParameter("year", GetYear()));
 			parameters.Add(new SqliteParameter("month", GetMonth()));
-			parameters.Add(new SqliteParameter("total_cost", textBox1.Text));
-			parameters.Add(new SqliteParameter("basic_price", textBox2.Text));
-			parameters.Add(new SqliteParameter("price1", textBox3.Text));
-			parameters.Add(new SqliteParameter("price2", textBox4.Text));
-			parameters.Add(new SqliteParameter("price3", textBox9.Text));
-			parameters.Add(new SqliteParameter("adjust_price", textBox5.Text));
-			parameters.Add(new SqliteParameter("discount_price", textBox6.Text));
-			parameters.Add(new SqliteParameter("re_energy_charge", textBox7.Text));
+			parameters.Add(new SqliteParameter("total_cost", CommonUtil.GetDecimalValue(textBox1.Text)));
+			parameters.Add(new SqliteParameter("basic_price", CommonUtil.GetDecimalValue(textBox2.Text)));
+			parameters.Add(new SqliteParameter("price1", CommonUtil.GetDecimalValue(textBox3.Text)));
+			parameters.Add(new SqliteParameter("price2", CommonUtil.GetDecimalValue(textBox4.Text)));
+			parameters.Add(new SqliteParameter("price3", CommonUtil.GetDecimalValue(textBox9.Text)));
+			parameters.Add(new SqliteParameter("adjust_price", CommonUtil.GetDecimalValue(textBox5.Text)));
+			parameters.Add(new SqliteParameter("discount_price", CommonUtil.GetDecimalValue(textBox6.Text)));
+			parameters.Add(new SqliteParameter("re_energy_charge", CommonUtil.GetDecimalValue(textBox7.Text)));
 			parameters.Add(new SqliteParameter("usage_period_from", CommonUtil.GetDate(dateTimePicker2.Value)));
 			parameters.Add(new SqliteParameter("usage_period_to", CommonUtil.GetDate(dateTimePicker3.Value)));
-			parameters.Add(new SqliteParameter("usage_amount", textBox8.Text));
+			parameters.Add(new SqliteParameter("usage_amount", CommonUtil.GetDecimalValue(textBox8.Text)));
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
 		}

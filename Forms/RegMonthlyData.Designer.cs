@@ -82,7 +82,7 @@
 			dateTimePicker1.Format = DateTimePickerFormat.Custom;
 			dateTimePicker1.Location = new Point(152, 12);
 			dateTimePicker1.Margin = new Padding(2);
-			dateTimePicker1.MinDate = new DateTime(2024, 8, 24, 0, 0, 0, 0);
+			dateTimePicker1.MinDate = new DateTime(2024, 1, 1, 0, 0, 0, 0);
 			dateTimePicker1.Name = "dateTimePicker1";
 			dateTimePicker1.Size = new Size(106, 23);
 			dateTimePicker1.TabIndex = 1;
