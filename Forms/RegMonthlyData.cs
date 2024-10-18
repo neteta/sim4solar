@@ -109,9 +109,29 @@ namespace sim4solar
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
 
+			if (!CheckInputData())
+			{
+				MessageBox.Show("入力データの整合性が取れていません。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			RegData();
 
 			MessageBox.Show("登録しました。", "データ登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private bool CheckInputData()
+		{
+			int totalCost = int.Parse(CommonUtil.GetDecimalValue(textBox1.Text).ToString());
+			decimal basicPrice = CommonUtil.GetDecimalValue(textBox2.Text);
+			decimal price1 = CommonUtil.GetDecimalValue(textBox3.Text);
+			decimal price2 = CommonUtil.GetDecimalValue(textBox4.Text);
+			decimal price3 = CommonUtil.GetDecimalValue(textBox9.Text);
+			decimal adjustPrice = CommonUtil.GetDecimalValue(textBox5.Text);
+			decimal discountPrice = CommonUtil.GetDecimalValue(textBox6.Text);
+			decimal reEnergyCharge = CommonUtil.GetDecimalValue(textBox7.Text);
+
+			return totalCost == (int)(basicPrice + price1 + price2 + price3 + adjustPrice + discountPrice + reEnergyCharge);
 		}
 
 		private void RegData()
