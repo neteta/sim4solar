@@ -42,12 +42,34 @@ ShowCommonAttributes=0
 BugFixEntityWidth=1
 
 [Entity]
+PName=selling_electricity
+LName=売電料金
+Comment=
+TableInnerOption=
+TableOption=
+Page=Main
+Left=700
+Top=100
+Field="年","year","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
+Field="月","month","INTEGER","NOT NULL",1,"","",$FFFFFFFF,""
+Field="売電金額","sales_amount","INTEGER","NOT NULL",,"","",$FFFFFFFF,""
+Field="使用期間From","usage_period_from","TEXT","NOT NULL",,"","",$FFFFFFFF,""
+Field="使用期間To","usage_period_to","TEXT","NOT NULL",,"","",$FFFFFFFF,""
+Field="電力量[kWh]","electric_energy","INTEGER","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20241214215856
+Position="Main",700,100
+ZOrder=3
+
+[Entity]
 PName=electricity_bill
 LName=電気料金
 Comment=
 TableInnerOption=
 TableOption=
-Page=Main
+Page=MAIN
 Left=100
 Top=100
 Field="年","year","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
@@ -67,7 +89,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20240825151423
-Position="Main",100,100
+Position="MAIN",100,100
 ZOrder=1
 
 [Entity]
@@ -76,7 +98,7 @@ LName=発電実績
 Comment=
 TableInnerOption=
 TableOption=
-Page=Main
+Page=MAIN
 Left=400
 Top=100
 Field="年月日","target_date","TEXT","NOT NULL",0,"","",$FFFFFFFF,""
@@ -90,5 +112,5 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20240825151114
-Position="Main",400,100
+Position="MAIN",400,100
 ZOrder=2
