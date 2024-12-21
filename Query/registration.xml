@@ -19,4 +19,13 @@
 		(@targetDate, @generateAmount, @consumptionAmount,
 		@salesAmount, @purchasedAmount, @chargeAmount, @dischargeAmount);
 	</sql>
+
+	<sql id="selling_electricity">
+		INSERT INTO selling_electricity
+		(year, month, sales_amount,
+		usage_period_from, usage_period_to, electric_energy)
+		VALUES
+		(@year, @month, @salesAmount,
+		@usagePeriodFrom, @usagePeriodTo, @electricEnergy);
+	</sql>
 </script>

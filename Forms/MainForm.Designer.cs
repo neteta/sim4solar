@@ -38,6 +38,7 @@
 			button1 = new Button();
 			splitContainer2 = new SplitContainer();
 			lblTitle = new Label();
+			button5 = new Button();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
@@ -56,6 +57,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			splitContainer1.Panel1.Controls.Add(button5);
 			splitContainer1.Panel1.Controls.Add(button4);
 			splitContainer1.Panel1.Controls.Add(button3);
 			splitContainer1.Panel1.Controls.Add(label3);
@@ -105,7 +107,7 @@
 			// 
 			// button2
 			// 
-			button2.Location = new Point(0, 98);
+			button2.Location = new Point(-1, 132);
 			button2.Margin = new Padding(2);
 			button2.Name = "button2";
 			button2.Size = new Size(173, 20);
@@ -117,7 +119,7 @@
 			// 
 			label2.AutoSize = true;
 			label2.Font = new Font("Yu Gothic UI", 9F, FontStyle.Bold);
-			label2.Location = new Point(5, 81);
+			label2.Location = new Point(5, 115);
 			label2.Margin = new Padding(2, 0, 2, 0);
 			label2.Name = "label2";
 			label2.Size = new Size(58, 15);
@@ -170,6 +172,16 @@
 			lblTitle.TabIndex = 0;
 			lblTitle.Text = "label4";
 			// 
+			// button5
+			// 
+			button5.Location = new Point(0, 77);
+			button5.Name = "button5";
+			button5.Size = new Size(172, 23);
+			button5.TabIndex = 3;
+			button5.Text = "売電実績取込";
+			button5.UseVisualStyleBackColor = true;
+			button5.Click += button5_Click;
+			// 
 			// MainForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -205,5 +217,6 @@
         private SplitContainer splitContainer2;
         private Label lblTitle;
         private Button button4;
-    }
+		private Button button5;
+	}
 }
