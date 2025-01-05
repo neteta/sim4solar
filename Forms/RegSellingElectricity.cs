@@ -1,28 +1,13 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using TextBox = System.Windows.Forms.TextBox;
 
 namespace sim4solar.Forms
 {
-	public partial class RegSellingElectricity : Form
+	public partial class RegSellingElectricity : BaseCommonForm
 	{
-		private const int DTM_GETMONTHCAL = 0x1000 + 8;
-		private const int MCM_SETCURRENTVIEW = 0x1000 + 32;
-		private int year;
-
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
 		public RegSellingElectricity()
 		{
@@ -41,23 +26,6 @@ namespace sim4solar.Forms
 				if (txt == null) { continue; }
 				((TextBox)txt).LostFocus += SetNumericValueFormat;
 			}
-		}
-
-		/// <summary>
-		/// Convert csv format for numeric value.
-		/// </summary>
-		/// <param name="sender">LostFocus object</param>
-		/// <param name="e">Event object</param>
-		private void SetNumericValueFormat(Object? sender, EventArgs e)
-		{
-			if (sender == null) { return; }
-
-			TextBox txt = (TextBox)sender;
-			if (txt == null) { return; }
-
-			int parseVal;
-			if (!int.TryParse(txt.Text, out parseVal)) { return; }
-			txt.Text = String.Format("{0:N0}", parseVal);
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -94,26 +62,14 @@ namespace sim4solar.Forms
 			return dateTimePicker1.Value.Month;
 		}
 
-		private void dateTimePicker1_DropDown(object sender, EventArgs e)
+		private void DateTimePicker1_DropDown(object sender, EventArgs e)
 		{
-			DateTimePicker myDt = (DateTimePicker)sender;
-
-			IntPtr cal = SendMessage(dateTimePicker1.Handle, DTM_GETMONTHCAL, IntPtr.Zero, IntPtr.Zero);
-			SendMessage(cal, MCM_SETCURRENTVIEW, IntPtr.Zero, (IntPtr)1);
+			base.MonthlyDateTimePicker_DropDown(sender, e);
 		}
 
-		private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+		private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
 		{
-			DateTimePicker dp = (DateTimePicker)sender;
-			if (year != dp.Value.Year)
-			{
-				year = dp.Value.Year;
-			}
-			else
-			{
-				dp.Select();
-				SendKeys.SendWait("{ENTER}");
-			}
+			base.MonthlyDateTimePicker_ValueChanged(sender, e);
 		}
 
 

@@ -1,5 +1,4 @@
 ﻿using sim4solar.Forms;
-using System.Windows.Forms;
 
 namespace sim4solar
 {
@@ -45,6 +44,16 @@ namespace sim4solar
 		{
 			RegSellingElectricity form = new RegSellingElectricity();
 			ShowForm(form, "売電実績登録");
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Not implemented.");
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Not implemented.");
 		}
 	}
 }

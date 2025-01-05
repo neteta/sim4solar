@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			splitContainer1 = new SplitContainer();
+			button5 = new Button();
 			button4 = new Button();
 			button3 = new Button();
 			label3 = new Label();
@@ -38,7 +39,6 @@
 			button1 = new Button();
 			splitContainer2 = new SplitContainer();
 			lblTitle = new Label();
-			button5 = new Button();
 			((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
 			splitContainer1.Panel1.SuspendLayout();
 			splitContainer1.Panel2.SuspendLayout();
@@ -74,6 +74,16 @@
 			splitContainer1.SplitterWidth = 3;
 			splitContainer1.TabIndex = 0;
 			// 
+			// button5
+			// 
+			button5.Location = new Point(0, 77);
+			button5.Name = "button5";
+			button5.Size = new Size(172, 23);
+			button5.TabIndex = 3;
+			button5.Text = "売電実績取込";
+			button5.UseVisualStyleBackColor = true;
+			button5.Click += button5_Click;
+			// 
 			// button4
 			// 
 			button4.Location = new Point(0, 48);
@@ -93,6 +103,7 @@
 			button3.TabIndex = 2;
 			button3.Text = "設定";
 			button3.UseVisualStyleBackColor = true;
+			button3.Click += button3_Click;
 			// 
 			// label3
 			// 
@@ -114,6 +125,7 @@
 			button2.TabIndex = 0;
 			button2.Text = "残債確認";
 			button2.UseVisualStyleBackColor = true;
+			button2.Click += button2_Click;
 			// 
 			// label2
 			// 
@@ -171,16 +183,6 @@
 			lblTitle.Size = new Size(39, 15);
 			lblTitle.TabIndex = 0;
 			lblTitle.Text = "label4";
-			// 
-			// button5
-			// 
-			button5.Location = new Point(0, 77);
-			button5.Name = "button5";
-			button5.Size = new Size(172, 23);
-			button5.TabIndex = 3;
-			button5.Text = "売電実績取込";
-			button5.UseVisualStyleBackColor = true;
-			button5.Click += button5_Click;
 			// 
 			// MainForm
 			// 

@@ -49,8 +49,8 @@
 			dateTimePicker1.Name = "dateTimePicker1";
 			dateTimePicker1.Size = new Size(106, 23);
 			dateTimePicker1.TabIndex = 0;
-			dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
-			dateTimePicker1.DropDown += dateTimePicker1_DropDown;
+			dateTimePicker1.ValueChanged += DateTimePicker1_ValueChanged;
+			dateTimePicker1.DropDown += DateTimePicker1_DropDown;
 			// 
 			// label1
 			// 
