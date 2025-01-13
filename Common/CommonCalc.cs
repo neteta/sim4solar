@@ -23,6 +23,12 @@ namespace sim4solar.Common
 			return (double)((int)price);
 		}
 
+		/// <summary>
+		/// 電気量料金 1段階目の取得
+		/// </summary>
+		/// <param name="usageAmount">使用量[kWh]</param>
+		/// <param name="coef">係数</param>
+		/// <returns>電力量料金 1段階目</returns>
 		public static double GetPrice1(int usageAmount, double coef)
 		{
 			if (usageAmount > 120)
@@ -33,6 +39,12 @@ namespace sim4solar.Common
 			return usageAmount * coef;
 		}
 
+		/// <summary>
+		/// 電力量料金 2段階目の取得
+		/// </summary>
+		/// <param name="usageAmount">使用量[kWh]</param>
+		/// <param name="coef">係数</param>
+		/// <returns>電力量料金 2段階目</returns>
 		public static double GetPrice2(int usageAmount, double coef)
 		{
 			if (usageAmount <= 120)
@@ -48,6 +60,12 @@ namespace sim4solar.Common
 			return (usageAmount - 120) * coef;
 		}
 
+		/// <summary>
+		/// 電力量料金 3段階目の取得
+		/// </summary>
+		/// <param name="usageAmount">使用量[kWh]</param>
+		/// <param name="coef">係数</param>
+		/// <returns>電力量料金 3段階目</returns>
 		public static double GetPrice3(int usageAmount, double coef)
 		{
 			if (usageAmount <= 300)
@@ -58,11 +76,24 @@ namespace sim4solar.Common
 			return (usageAmount - 300) * coef;
 		}
 
+		/// <summary>
+		/// 燃料費調整額の取得
+		/// </summary>
+		/// <param name="usageAmount">使用量[kWh]</param>
+		/// <param name="coef">係数</param>
+		/// <returns></returns>
 		public static double GetAdjustPrice(int usageAmount, double coef)
 		{
 			return usageAmount * coef;
 		}
 
+		/// <summary>
+		/// セット割引額等の取得
+		/// </summary>
+		/// <param name="dr">基準データ</param>
+		/// <param name="reEnergyCharge">再エネ促進賦課金</param>
+		/// <param name="coef">係数</param>
+		/// <returns></returns>
 		public static double GetDiscountPrice(DataRow dr, double reEnergyCharge, double coef)
 		{
 			return -(
@@ -74,11 +105,22 @@ namespace sim4solar.Common
 				+ reEnergyCharge) * coef;
 		}
 
+		/// <summary>
+		/// 再エネ促進賦課金の取得
+		/// </summary>
+		/// <param name="usageAmount">使用量[kWh]</param>
+		/// <param name="coef">係数</param>
+		/// <returns>再エネ促進賦課金</returns>
 		public static double GetReEnergyCharge(int usageAmount, double coef)
 		{
 			return (double)(int)(usageAmount * coef);
 		}
 
+		/// <summary>
+		/// 合計金額の取得
+		/// </summary>
+		/// <param name="dr">算定基準データ</param>
+		/// <returns>合計金額</returns>
 		public static double GetTotalCost(DataRow dr)
 		{
 			double totalCost = (double)dr["basic_price"]

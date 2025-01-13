@@ -61,8 +61,8 @@ namespace sim4solar.Forms
 				return;
 			}
 
-			GetHeaderLabel(dt);
 			GetComparisonRow(dt, dtPowerGenResult);
+			GetHeaderLabel(dt);
 
 			dataGridView1.DataSource = dt;
 			SetColumnsName();
@@ -75,6 +75,8 @@ namespace sim4solar.Forms
 		{
 			label3.Text = ((string)dt.Rows[0]["usage_period_from"]).Replace("-", "/");
 			label5.Text = ((string)dt.Rows[0]["usage_period_to"]).Replace("-", "/");
+			label7.Text = String.Format("{0:N0}",
+				((long)dt.Rows[1]["total_cost"] - (long)dt.Rows[0]["total_cost"])) + "円";
 		}
 
 		private void GetComparisonRow(DataTable dt, DataTable dtPowerGenResult)
@@ -82,10 +84,13 @@ namespace sim4solar.Forms
 			// 制約を解除しておく
 			dt.Constraints.Clear();
 
+			DataRow achiveDr = dt.Rows[0];
+
 			String sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
 			List<SqliteParameter> parameters = new List<SqliteParameter>();
 			parameters.Add(new SqliteParameter("code", MainCode.C001));
-			parameters.Add(new SqliteParameter("targetDate", dateTimePicker1.Value.ToString("yyyy-MM-dd")));
+			// 使用期間の開始日を基準に取得
+			parameters.Add(new SqliteParameter("targetDate", achiveDr["usage_period_from"]));
 			DataTable dtMst = DBAccess.Select(sql, parameters.ToArray());
 			if (dtMst.Rows.Count == 0)
 			{
@@ -93,12 +98,21 @@ namespace sim4solar.Forms
 				return;
 			}
 
-			DataRow achiveDr = dt.Rows[0];
+			parameters.Clear();
+			parameters.Add(new SqliteParameter("code", MainCode.C001));
+			// 燃料調整費については、請求年月を基準に取得
+			parameters.Add(new SqliteParameter("targetDate", dateTimePicker1.Value.ToString("yyyy-MM-dd")));
+			DataTable dtMst4Adjust = DBAccess.Select(sql, parameters.ToArray());
+
+			if (dtMst4Adjust.Rows.Count == 0)
+			{
+				MessageBox.Show("マスタデータが見つかりません。");
+				return;
+			}
 
 			DataRow dr = dt.NewRow();
 			double usageAmount = CommonCalc.GetUsageAmount(dtPowerGenResult);
 			int intUsageAmount = (int)usageAmount;
-			//double reEnergeChage = CommonCalc.GetReEnergyCharge(intUsageAmount, 3.49);
 			double reEnergeChage = CommonCalc.GetReEnergyCharge(intUsageAmount,
 				CommonUtil.GetDoubleValue(dtMst, SubCode.C001_05));
 
@@ -108,7 +122,7 @@ namespace sim4solar.Forms
 			dr["price1"] = CommonCalc.GetPrice1(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_02));
 			dr["price2"] = CommonCalc.GetPrice2(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_03));
 			dr["price3"] = CommonCalc.GetPrice3(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
-			dr["adjust_price"] = CommonCalc.GetAdjustPrice(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_06));
+			dr["adjust_price"] = CommonCalc.GetAdjustPrice(intUsageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
 			dr["discount_price"] = CommonCalc.GetDiscountPrice(dr, reEnergeChage, 0.005);
 			dr["re_energy_charge"] = reEnergeChage;
 			dr["usage_period_from"] = achiveDr["usage_period_from"];
@@ -138,20 +152,26 @@ namespace sim4solar.Forms
 
 		private void SetFormat()
 		{
-			dataGridView1.Columns["price1"].DefaultCellStyle.Format = "F2";
-			dataGridView1.Columns["price2"].DefaultCellStyle.Format = "F2";
-			dataGridView1.Columns["price3"].DefaultCellStyle.Format = "F2";
-			dataGridView1.Columns["adjust_price"].DefaultCellStyle.Format = "F2";
-			dataGridView1.Columns["discount_price"].DefaultCellStyle.Format = "F2";
+			dataGridView1.Columns["total_cost"].DefaultCellStyle.Format = "N0";
+			dataGridView1.Columns["basic_price"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["price1"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["price2"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["price3"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["adjust_price"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["discount_price"].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns["usage_amount"].DefaultCellStyle.Format = "N0";
 		}
 
 		private void InsertColumn()
 		{
-			DataGridViewTextBoxColumn textColumn = new DataGridViewTextBoxColumn();
-			textColumn.DataPropertyName = "kind";
-			textColumn.Name = "kind";
-			textColumn.HeaderText = "データ区分";
-			dataGridView1.Columns.Insert(0, textColumn);
+			if (dataGridView1.ColumnCount == 13)
+			{
+				DataGridViewTextBoxColumn textColumn = new DataGridViewTextBoxColumn();
+				textColumn.DataPropertyName = "kind";
+				textColumn.Name = "kind";
+				textColumn.HeaderText = "データ区分";
+				dataGridView1.Columns.Insert(0, textColumn);
+			}
 
 			dataGridView1.Rows[0].Cells["kind"].Value = "請求実績";
 			dataGridView1.Rows[1].Cells["kind"].Value = "太陽光発電なし";
