@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:18
+﻿# A5:ER FORMAT:19
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.19.2 Copyright © 1997 - 2024 m.matsubara
+# A5:SQL Mk-2 Version 2.20.0 Copyright © 1997 - 2025 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -47,7 +47,7 @@ LName=売電料金
 Comment=
 TableInnerOption=
 TableOption=
-Page=Main
+Page=MAIN
 Left=700
 Top=100
 Field="年","year","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
@@ -60,7 +60,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20241214215856
-Position="Main",700,100
+Position="MAIN",700,100
 ZOrder=3
 
 [Entity]
@@ -114,3 +114,24 @@ BkColor=$FFFFFF
 ModifiedDateTime=20240825151114
 Position="MAIN",400,100
 ZOrder=2
+
+[Entity]
+PName=mst_code
+LName=コードマスタ
+Comment=
+TableInnerOption=
+TableOption=
+Page=Main
+Left=1000
+Top=100
+Field="適用開始日","start_date","TEXT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="適用終了日","end_date","TEXT","NOT NULL",1,"","",$FFFFFFFF,""
+Field="コード","code","TEXT","NOT NULL",2,"","",$FFFFFFFF,""
+Field="設定値","value","TEXT",,,"","",$FFFFFFFF,""
+Field="備考","note","TEXT",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$FF0000
+BkColor=$FFFFFF
+ModifiedDateTime=20250113153228
+Position="Main",1000,100
+ZOrder=4

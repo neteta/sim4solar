@@ -123,7 +123,7 @@
 			button2.Name = "button2";
 			button2.Size = new Size(173, 20);
 			button2.TabIndex = 0;
-			button2.Text = "残債確認";
+			button2.Text = "料金比較";
 			button2.UseVisualStyleBackColor = true;
 			button2.Click += button2_Click;
 			// 

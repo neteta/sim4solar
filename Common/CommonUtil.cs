@@ -1,4 +1,6 @@
-﻿namespace sim4solar.Common
+﻿using System.Data;
+
+namespace sim4solar.Common
 {
 	internal class CommonUtil
 	{
@@ -22,6 +24,17 @@
 		public static string GetDate(DateTime targetDate)
 		{
 			return targetDate.ToString("yyyy-MM-dd");
+		}
+
+		public static double GetDoubleValue(DataTable dt, string subCode)
+		{
+			return Convert.ToDouble(GetStringValue(dt, subCode));
+		}
+
+		public static string GetStringValue(DataTable dt, string subCode)
+		{
+			DataRow[] dr = dt.Select("code='" + subCode + "'");
+			return (string)dr[0]["value"];
 		}
 	}
 }

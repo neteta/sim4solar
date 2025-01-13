@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<script>
+	<sql id="electricity_bill">
+		SELECT * FROM electricity_bill
+		WHERE year = @year AND month = @month;
+	</sql>
+
+	<sql id="power_generation_results">
+		SELECT * FROM power_generation_results
+		WHERE target_date BETWEEN @start AND @end
+		ORDER BY target_date;
+	</sql>
+
+	<sql id="mst_code">
+		SELECT * FROM mst_code
+		WHERE substr(code, 1, 4) = @code
+		AND @targetDate BETWEEN start_date AND end_date;
+	</sql>
+</script>

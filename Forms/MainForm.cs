@@ -53,7 +53,8 @@ namespace sim4solar
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not implemented.");
+			CostComparison form = new CostComparison();
+			ShowForm(form, "料金比較");
 		}
 	}
 }
