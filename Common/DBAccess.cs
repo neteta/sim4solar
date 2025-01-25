@@ -77,19 +77,17 @@ namespace sim4solar.Common
 
 		private static int ExecuteNonQuery(String sql, Array? parameters)
 		{
-			using (var con = new SqliteConnection(GetConnectionString()))
+			using var con = new SqliteConnection(GetConnectionString());
+			try
 			{
-				try
-				{
-					con.Open();
+				con.Open();
 
-					SqliteCommand cmd = GetCommand(con, sql, parameters);
-					return cmd.ExecuteNonQuery();
-				}
-				finally
-				{
-					con.Close();
-				}
+				SqliteCommand cmd = GetCommand(con, sql, parameters);
+				return cmd.ExecuteNonQuery();
+			}
+			finally
+			{
+				con.Close();
 			}
 		}
 
@@ -116,23 +114,21 @@ namespace sim4solar.Common
 
 		private static DataTable GetData(String sql, Array? parameters)
 		{
-			using (var con = new SqliteConnection(GetConnectionString()))
+			using var con = new SqliteConnection(GetConnectionString());
+			try
 			{
-				try
-				{
-					con.Open();
+				con.Open();
 
-					SqliteCommand cmd = GetCommand(con, sql, parameters);
-					SqliteDataReader dr = cmd.ExecuteReader();
+				SqliteCommand cmd = GetCommand(con, sql, parameters);
+				SqliteDataReader dr = cmd.ExecuteReader();
 
-					DataTable dt = new DataTable();
-					dt.Load(dr);
-					return dt;
-				}
-				finally
-				{
-					con.Close();
-				}
+				DataTable dt = new DataTable();
+				dt.Load(dr);
+				return dt;
+			}
+			finally
+			{
+				con.Close();
 			}
 		}
 

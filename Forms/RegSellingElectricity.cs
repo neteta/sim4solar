@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
-using System.Data;
-using System.Xml.Linq;
 using TextBox = System.Windows.Forms.TextBox;
 
 namespace sim4solar.Forms
@@ -28,24 +26,27 @@ namespace sim4solar.Forms
 			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
 
-			XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-			var sql = from item in xml.Elements("sql")
-								where item?.Attribute("id")?.Value == "selling_electricity"
-								select item.Value;
-			string insertSql = sql.First().ToString() ?? "";
+			//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
+			//var sql = from item in xml.Elements("sql")
+			//					where item?.Attribute("id")?.Value == "selling_electricity"
+			//					select item.Value;
+			//string insertSql = sql.First().ToString() ?? "";
+			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "selling_electricity");
 
-			List<SqliteParameter> parameters = new List<SqliteParameter>();
-			parameters.Add(new SqliteParameter("year", GetYear()));
-			parameters.Add(new SqliteParameter("month", GetMonth()));
-			parameters.Add(new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(textBox1.Text)));
-			parameters.Add(new SqliteParameter("usagePeriodFrom", CommonUtil.GetDate(dateTimePicker2.Value)));
-			parameters.Add(new SqliteParameter("usagePeriodTo", CommonUtil.GetDate(dateTimePicker3.Value)));
-			parameters.Add(new SqliteParameter("electricEnergy", CommonUtil.GetDecimalValue(textBox2.Text)));
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter("year", GetYear()),
+				new SqliteParameter("month", GetMonth()),
+				new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(textBox1.Text)),
+				new SqliteParameter("usagePeriodFrom", CommonUtil.GetDate(dateTimePicker2.Value)),
+				new SqliteParameter("usagePeriodTo", CommonUtil.GetDate(dateTimePicker3.Value)),
+				new SqliteParameter("electricEnergy", CommonUtil.GetDecimalValue(textBox2.Text)),
+			];
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
 
@@ -71,7 +72,5 @@ namespace sim4solar.Forms
 		{
 			base.MonthlyDateTimePicker_ValueChanged(sender, e);
 		}
-
-
 	}
 }

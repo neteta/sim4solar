@@ -11,7 +11,7 @@ namespace sim4solar
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			button1_Click(sender, e);
+			Button1_Click(sender, e);
 		}
 
 		private void SetTitle(string title)
@@ -19,13 +19,13 @@ namespace sim4solar
 			lblTitle.Text = title;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			RegMonthlyData form = new RegMonthlyData();
 			ShowForm(form, "電気料金登録");
 		}
 
-		private void button4_Click(object sender, EventArgs e)
+		private void Button4_Click(object sender, EventArgs e)
 		{
 			ImportPowerGenerationResult form = new ImportPowerGenerationResult();
 			ShowForm(form, "発電実績取込");
@@ -40,18 +40,18 @@ namespace sim4solar
 			form.Show();
 		}
 
-		private void button5_Click(object sender, EventArgs e)
+		private void Button5_Click(object sender, EventArgs e)
 		{
 			RegSellingElectricity form = new RegSellingElectricity();
 			ShowForm(form, "売電実績登録");
 		}
 
-		private void button3_Click(object sender, EventArgs e)
+		private void Button3_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Not implemented.");
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void Button2_Click(object sender, EventArgs e)
 		{
 			CostComparison form = new CostComparison();
 			ShowForm(form, "料金比較");

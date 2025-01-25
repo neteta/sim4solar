@@ -137,7 +137,7 @@
 			button1.TabIndex = 10;
 			button1.Text = "登録";
 			button1.UseVisualStyleBackColor = true;
-			button1.Click += button1_Click;
+			button1.Click += Button1_Click;
 			// 
 			// RegSellingElectricity
 			// 

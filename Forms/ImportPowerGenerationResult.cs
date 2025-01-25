@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
-using System.Data;
-using System.Xml.Linq;
 
 namespace sim4solar.Forms
 {
@@ -54,14 +52,15 @@ namespace sim4solar.Forms
 		{
 			try
 			{
-				XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-				var sql = from item in xml.Elements("sql")
-									where item?.Attribute("id")?.Value == "power_generation_results"
-									select item.Value;
-				string insertSql = sql.First().ToString() ?? "";
+				//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
+				//var sql = from item in xml.Elements("sql")
+				//					where item?.Attribute("id")?.Value == "power_generation_results"
+				//					select item.Value;
+				//string insertSql = sql.First().ToString() ?? "";
+				string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "power_generation_results");
 				int rowCount = 0;
 
-				using (StreamReader sr = new StreamReader(textBox1.Text))
+				using (StreamReader sr = new(textBox1.Text))
 				{
 					string? line;
 					while ((line = sr.ReadLine()) != null)
@@ -80,14 +79,16 @@ namespace sim4solar.Forms
 							continue;
 						}
 
-						List<SqliteParameter> parameters = new List<SqliteParameter>();
-						parameters.Add(new SqliteParameter("targetDate", CommonUtil.GetStringWithoutDblQuot(array[0])));
-						parameters.Add(new SqliteParameter("generateAmount", CommonUtil.GetDecimalValue(array[1])));
-						parameters.Add(new SqliteParameter("consumptionAmount", CommonUtil.GetDecimalValue(array[2])));
-						parameters.Add(new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(array[3])));
-						parameters.Add(new SqliteParameter("purchasedAmount", CommonUtil.GetDecimalValue(array[4])));
-						parameters.Add(new SqliteParameter("chargeAmount", CommonUtil.GetDecimalValue(array[5])));
-						parameters.Add(new SqliteParameter("dischargeAmount", CommonUtil.GetDecimalValue(array[6])));
+						List<SqliteParameter> parameters =
+						[
+							new SqliteParameter("targetDate", CommonUtil.GetStringWithoutDblQuot(array[0])),
+							new SqliteParameter("generateAmount", CommonUtil.GetDecimalValue(array[1])),
+							new SqliteParameter("consumptionAmount", CommonUtil.GetDecimalValue(array[2])),
+							new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(array[3])),
+							new SqliteParameter("purchasedAmount", CommonUtil.GetDecimalValue(array[4])),
+							new SqliteParameter("chargeAmount", CommonUtil.GetDecimalValue(array[5])),
+							new SqliteParameter("dischargeAmount", CommonUtil.GetDecimalValue(array[6])),
+						];
 
 						_ = DBAccess.Insert(insertSql, parameters.ToArray());
 					}

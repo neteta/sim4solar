@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
 using System.Data;
-using System.Windows.Forms;
 
 namespace sim4solar.Forms
 {
@@ -37,9 +36,11 @@ namespace sim4solar.Forms
 			DateTime targetYM = dateTimePicker1.Value;
 			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "electricity_bill");
 
-			List<SqliteParameter> parameters = new List<SqliteParameter>();
-			parameters.Add(new SqliteParameter("year", targetYM.Year));
-			parameters.Add(new SqliteParameter("month", targetYM.Month));
+			List<SqliteParameter> parameters =
+				[
+					new SqliteParameter("year", targetYM.Year),
+					new SqliteParameter("month", targetYM.Month)
+				];
 
 			DataTable dt = DBAccess.Select(sql, parameters.ToArray());
 			if (dt.Rows.Count == 0)
@@ -87,10 +88,12 @@ namespace sim4solar.Forms
 			DataRow achiveDr = dt.Rows[0];
 
 			String sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
-			List<SqliteParameter> parameters = new List<SqliteParameter>();
-			parameters.Add(new SqliteParameter("code", MainCode.C001));
-			// 使用期間の開始日を基準に取得
-			parameters.Add(new SqliteParameter("targetDate", achiveDr["usage_period_from"]));
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter("code", MainCode.C001),
+				// 使用期間の開始日を基準に取得
+				new SqliteParameter("targetDate", achiveDr["usage_period_from"]),
+			];
 			DataTable dtMst = DBAccess.Select(sql, parameters.ToArray());
 			if (dtMst.Rows.Count == 0)
 			{
@@ -166,10 +169,12 @@ namespace sim4solar.Forms
 		{
 			if (dataGridView1.ColumnCount == 13)
 			{
-				DataGridViewTextBoxColumn textColumn = new DataGridViewTextBoxColumn();
-				textColumn.DataPropertyName = "kind";
-				textColumn.Name = "kind";
-				textColumn.HeaderText = "データ区分";
+				DataGridViewTextBoxColumn textColumn = new()
+				{
+					DataPropertyName = "kind",
+					Name = "kind",
+					HeaderText = "データ区分"
+				};
 				dataGridView1.Columns.Insert(0, textColumn);
 			}
 

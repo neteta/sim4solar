@@ -6,9 +6,7 @@ namespace sim4solar.Common
 	{
 		public static decimal GetDecimalValue(string targetVal)
 		{
-			decimal retVal;
-
-			if (!decimal.TryParse(CommonUtil.GetStringWithoutDblQuot(targetVal), out retVal))
+			if (!decimal.TryParse(CommonUtil.GetStringWithoutDblQuot(targetVal), out decimal retVal))
 			{
 				return 0;
 			}
@@ -34,7 +32,7 @@ namespace sim4solar.Common
 		public static string GetStringValue(DataTable dt, string subCode)
 		{
 			DataRow[] dr = dt.Select("code='" + subCode + "'");
-			return (string)dr[0]["value"];
+			return dr == null ? String.Empty : (string)dr[0]["value"];
 		}
 	}
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
 using sim4solar.Forms;
-using System.Data;
-using System.Xml.Linq;
 
 namespace sim4solar
 {
@@ -75,26 +73,29 @@ namespace sim4solar
 
 		private void RegData()
 		{
-			XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-			var sql = from item in xml.Elements("sql")
-								where item?.Attribute("id")?.Value == "electricity_bill"
-								select item.Value;
-			string insertSql = sql.First().ToString() ?? "";
+			//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
+			//var sql = from item in xml.Elements("sql")
+			//					where item?.Attribute("id")?.Value == "electricity_bill"
+			//					select item.Value;
+			//string insertSql = sql.First().ToString() ?? "";
+			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "electricity_bill");
 
-			List<SqliteParameter> parameters = new List<SqliteParameter>();
-			parameters.Add(new SqliteParameter("year", GetYear()));
-			parameters.Add(new SqliteParameter("month", GetMonth()));
-			parameters.Add(new SqliteParameter("total_cost", CommonUtil.GetDecimalValue(textBox1.Text)));
-			parameters.Add(new SqliteParameter("basic_price", CommonUtil.GetDecimalValue(textBox2.Text)));
-			parameters.Add(new SqliteParameter("price1", CommonUtil.GetDecimalValue(textBox3.Text)));
-			parameters.Add(new SqliteParameter("price2", CommonUtil.GetDecimalValue(textBox4.Text)));
-			parameters.Add(new SqliteParameter("price3", CommonUtil.GetDecimalValue(textBox9.Text)));
-			parameters.Add(new SqliteParameter("adjust_price", CommonUtil.GetDecimalValue(textBox5.Text)));
-			parameters.Add(new SqliteParameter("discount_price", CommonUtil.GetDecimalValue(textBox6.Text)));
-			parameters.Add(new SqliteParameter("re_energy_charge", CommonUtil.GetDecimalValue(textBox7.Text)));
-			parameters.Add(new SqliteParameter("usage_period_from", CommonUtil.GetDate(dateTimePicker2.Value)));
-			parameters.Add(new SqliteParameter("usage_period_to", CommonUtil.GetDate(dateTimePicker3.Value)));
-			parameters.Add(new SqliteParameter("usage_amount", CommonUtil.GetDecimalValue(textBox8.Text)));
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter("year", GetYear()),
+				new SqliteParameter("month", GetMonth()),
+				new SqliteParameter("total_cost", CommonUtil.GetDecimalValue(textBox1.Text)),
+				new SqliteParameter("basic_price", CommonUtil.GetDecimalValue(textBox2.Text)),
+				new SqliteParameter("price1", CommonUtil.GetDecimalValue(textBox3.Text)),
+				new SqliteParameter("price2", CommonUtil.GetDecimalValue(textBox4.Text)),
+				new SqliteParameter("price3", CommonUtil.GetDecimalValue(textBox9.Text)),
+				new SqliteParameter("adjust_price", CommonUtil.GetDecimalValue(textBox5.Text)),
+				new SqliteParameter("discount_price", CommonUtil.GetDecimalValue(textBox6.Text)),
+				new SqliteParameter("re_energy_charge", CommonUtil.GetDecimalValue(textBox7.Text)),
+				new SqliteParameter("usage_period_from", CommonUtil.GetDate(dateTimePicker2.Value)),
+				new SqliteParameter("usage_period_to", CommonUtil.GetDate(dateTimePicker3.Value)),
+				new SqliteParameter("usage_amount", CommonUtil.GetDecimalValue(textBox8.Text)),
+			];
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
 		}

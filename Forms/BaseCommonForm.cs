@@ -27,9 +27,11 @@
 			{
 				year = dp.Value.Year;
 			}
-
-			dp.Select();
-			SendKeys.SendWait("{ENTER}");
+			else
+			{
+				dp.Select();
+				SendKeys.SendWait("{ENTER}");
+			}
 		}
 
 		/// <summary>

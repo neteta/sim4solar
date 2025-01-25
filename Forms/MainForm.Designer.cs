@@ -82,7 +82,7 @@
 			button5.TabIndex = 3;
 			button5.Text = "売電実績取込";
 			button5.UseVisualStyleBackColor = true;
-			button5.Click += button5_Click;
+			button5.Click += Button5_Click;
 			// 
 			// button4
 			// 
@@ -92,7 +92,7 @@
 			button4.TabIndex = 0;
 			button4.Text = "発電実績取込";
 			button4.UseVisualStyleBackColor = true;
-			button4.Click += button4_Click;
+			button4.Click += Button4_Click;
 			// 
 			// button3
 			// 
@@ -103,7 +103,7 @@
 			button3.TabIndex = 2;
 			button3.Text = "設定";
 			button3.UseVisualStyleBackColor = true;
-			button3.Click += button3_Click;
+			button3.Click += Button3_Click;
 			// 
 			// label3
 			// 
@@ -125,7 +125,7 @@
 			button2.TabIndex = 0;
 			button2.Text = "料金比較";
 			button2.UseVisualStyleBackColor = true;
-			button2.Click += button2_Click;
+			button2.Click += Button2_Click;
 			// 
 			// label2
 			// 
@@ -158,7 +158,7 @@
 			button1.TabIndex = 0;
 			button1.Text = "電気料金登録";
 			button1.UseVisualStyleBackColor = true;
-			button1.Click += button1_Click;
+			button1.Click += Button1_Click;
 			// 
 			// splitContainer2
 			// 
