@@ -21,13 +21,13 @@ namespace sim4solar
 
 		private void Button1_Click(object sender, EventArgs e)
 		{
-			RegMonthlyData form = new RegMonthlyData();
+			RegMonthlyData form = new();
 			ShowForm(form, "電気料金登録");
 		}
 
 		private void Button4_Click(object sender, EventArgs e)
 		{
-			ImportPowerGenerationResult form = new ImportPowerGenerationResult();
+			ImportPowerGenerationResult form = new();
 			ShowForm(form, "発電実績取込");
 		}
 
@@ -42,7 +42,7 @@ namespace sim4solar
 
 		private void Button5_Click(object sender, EventArgs e)
 		{
-			RegSellingElectricity form = new RegSellingElectricity();
+			RegSellingElectricity form = new();
 			ShowForm(form, "売電実績登録");
 		}
 
@@ -53,7 +53,7 @@ namespace sim4solar
 
 		private void Button2_Click(object sender, EventArgs e)
 		{
-			CostComparison form = new CostComparison();
+			CostComparison form = new();
 			ShowForm(form, "料金比較");
 		}
 	}

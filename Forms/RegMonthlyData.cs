@@ -29,9 +29,15 @@ namespace sim4solar
 				if (txt == null) { continue; }
 				((TextBox)txt).LostFocus += SetNumericValueFormat;
 			}
+			dateTimePicker2.ValueChanged += SetUsagePeriod;
 		}
 
-		private void DateTimePicker1_DropDown(object sender, EventArgs e)
+        private void SetUsagePeriod(object? sender, EventArgs e)
+        {
+            dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
+        }
+
+        private void DateTimePicker1_DropDown(object sender, EventArgs e)
 		{
 			base.MonthlyDateTimePicker_DropDown(sender, e);
 		}
@@ -73,11 +79,6 @@ namespace sim4solar
 
 		private void RegData()
 		{
-			//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-			//var sql = from item in xml.Elements("sql")
-			//					where item?.Attribute("id")?.Value == "electricity_bill"
-			//					select item.Value;
-			//string insertSql = sql.First().ToString() ?? "";
 			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "electricity_bill");
 
 			List<SqliteParameter> parameters =

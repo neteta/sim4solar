@@ -46,9 +46,8 @@
 			TextBox txt = (TextBox)sender;
 			if (txt == null) { return; }
 
-			int parseVal;
-			if (!int.TryParse(txt.Text, out parseVal)) { return; }
-			txt.Text = String.Format("{0:N0}", parseVal);
+            if (!int.TryParse(txt.Text, out int parseVal)) { return; }
+            txt.Text = string.Format("{0:N0}", parseVal);
 		}
 	}
 }

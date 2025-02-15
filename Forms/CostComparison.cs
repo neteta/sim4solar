@@ -77,7 +77,7 @@ namespace sim4solar.Forms
 			label3.Text = ((string)dt.Rows[0]["usage_period_from"]).Replace("-", "/");
 			label5.Text = ((string)dt.Rows[0]["usage_period_to"]).Replace("-", "/");
 			label7.Text = String.Format("{0:N0}",
-				((long)dt.Rows[1]["total_cost"] - (long)dt.Rows[0]["total_cost"])) + "円";
+				(long)dt.Rows[1]["total_cost"] - (long)dt.Rows[0]["total_cost"]) + "円";
 		}
 
 		private void GetComparisonRow(DataTable dt, DataTable dtPowerGenResult)

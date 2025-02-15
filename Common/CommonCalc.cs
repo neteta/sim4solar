@@ -20,7 +20,7 @@ namespace sim4solar.Common
 			}
 
 			// 切り捨て
-			return (double)((int)price);
+			return (int)price;
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace sim4solar.Common
 		/// <returns>再エネ促進賦課金</returns>
 		public static double GetReEnergyCharge(int usageAmount, double coef)
 		{
-			return (double)(int)(usageAmount * coef);
+			return (int)(usageAmount * coef);
 		}
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace sim4solar.Common
 				+ (double)dr["discount_price"]
 				+ (long)dr["re_energy_charge"];
 
-			return (double)(int)totalCost;
+			return (int)totalCost;
 		}
 	}
 }

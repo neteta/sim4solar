@@ -21,7 +21,7 @@ namespace sim4solar.Common
 				case SqlType.Insert:
 					return "registration.xml";
 				default:
-					return String.Empty;
+					return string.Empty;
 			}
 		}
 

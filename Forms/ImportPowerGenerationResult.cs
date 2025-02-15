@@ -15,7 +15,7 @@ namespace sim4solar.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void button1_Click(object sender, EventArgs e)
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			string filePath = SelectFile();
 
@@ -25,7 +25,7 @@ namespace sim4solar.Forms
 			}
 		}
 
-		private string SelectFile()
+		private static string SelectFile()
 		{
 			string filePath = String.Empty;
 
@@ -48,15 +48,10 @@ namespace sim4solar.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void button2_Click(object sender, EventArgs e)
+		private void Button2_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-				//var sql = from item in xml.Elements("sql")
-				//					where item?.Attribute("id")?.Value == "power_generation_results"
-				//					select item.Value;
-				//string insertSql = sql.First().ToString() ?? "";
 				string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "power_generation_results");
 				int rowCount = 0;
 

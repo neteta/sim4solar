@@ -24,18 +24,19 @@ namespace sim4solar.Forms
 				if (txt == null) { continue; }
 				((TextBox)txt).LostFocus += SetNumericValueFormat;
 			}
+			dateTimePicker2.ValueChanged += SetUsagePeriod;
 		}
 
-		private void Button1_Click(object sender, EventArgs e)
+        private void SetUsagePeriod(object? sender, EventArgs e)
+        {
+            dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
 
-			//XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\registration.xml");
-			//var sql = from item in xml.Elements("sql")
-			//					where item?.Attribute("id")?.Value == "selling_electricity"
-			//					select item.Value;
-			//string insertSql = sql.First().ToString() ?? "";
 			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "selling_electricity");
 
 			List<SqliteParameter> parameters =

@@ -32,7 +32,7 @@ namespace sim4solar.Common
 		public static string GetStringValue(DataTable dt, string subCode)
 		{
 			DataRow[] dr = dt.Select("code='" + subCode + "'");
-			return dr == null ? String.Empty : (string)dr[0]["value"];
+			return dr == null ? string.Empty : (string)dr[0]["value"];
 		}
 	}
 }
