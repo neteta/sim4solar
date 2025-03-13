@@ -13,10 +13,7 @@ namespace sim4solar.Common
 
 			foreach (DataRow dr in dt.Rows)
 			{
-				price = price
-					+ (double)dr["consumption_amount"] // 消費電力量
-					+ (double)dr["purchased_amount"]   // 買電電力量
-					+ (double)dr["discharge_amount"];  // 放電電力量
+				price += (double)dr["consumption_amount"]; // 消費電力量
 			}
 
 			// 切り捨て

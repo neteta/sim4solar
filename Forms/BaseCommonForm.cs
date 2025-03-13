@@ -7,7 +7,7 @@
 	{
 		private const int DTM_GETMONTHCAL = 0x1000 + 8;
 		private const int MCM_SETCURRENTVIEW = 0x1000 + 32;
-		private int year;
+		private int year = DateTime.Now.Year;
 
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		private static extern nint SendMessage(nint hWnd, int msg, nint wp, nint lp);
