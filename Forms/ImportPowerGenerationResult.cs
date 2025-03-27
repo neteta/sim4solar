@@ -27,7 +27,7 @@ namespace sim4solar.Forms
 
 		private static string SelectFile()
 		{
-			string filePath = String.Empty;
+			string filePath = string.Empty;
 
 			using (OpenFileDialog openFileDialog = new OpenFileDialog())
 			{

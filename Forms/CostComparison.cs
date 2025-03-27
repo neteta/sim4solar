@@ -76,7 +76,7 @@ namespace sim4solar.Forms
 		{
 			label3.Text = ((string)dt.Rows[0]["usage_period_from"]).Replace("-", "/");
 			label5.Text = ((string)dt.Rows[0]["usage_period_to"]).Replace("-", "/");
-			label7.Text = String.Format("{0:N0}",
+			label7.Text = string.Format("{0:N0}",
 				(long)dt.Rows[1]["total_cost"] - (long)dt.Rows[0]["total_cost"]) + "円";
 		}
 
@@ -87,7 +87,7 @@ namespace sim4solar.Forms
 
 			DataRow achiveDr = dt.Rows[0];
 
-			String sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
+            string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
 			List<SqliteParameter> parameters =
 			[
 				new SqliteParameter("code", MainCode.C001),

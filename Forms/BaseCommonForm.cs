@@ -3,14 +3,14 @@
 	/// <summary>
 	/// Base Class For Common Form
 	/// </summary>
-	public class BaseCommonForm : Form
+	public partial class BaseCommonForm : Form
 	{
 		private const int DTM_GETMONTHCAL = 0x1000 + 8;
 		private const int MCM_SETCURRENTVIEW = 0x1000 + 32;
 		private int year = DateTime.Now.Year;
 
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		private static extern nint SendMessage(nint hWnd, int msg, nint wp, nint lp);
+		[System.Runtime.InteropServices.LibraryImport("user32.dll", EntryPoint = "SendMessageA")]
+		private static partial nint SendMessage(nint hWnd, int msg, nint wp, nint lp);
 
 		protected void MonthlyDateTimePicker_DropDown(object sender, EventArgs e)
 		{

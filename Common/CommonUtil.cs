@@ -6,7 +6,7 @@ namespace sim4solar.Common
 	{
 		public static decimal GetDecimalValue(string targetVal)
 		{
-			if (!decimal.TryParse(CommonUtil.GetStringWithoutDblQuot(targetVal), out decimal retVal))
+			if (!decimal.TryParse(GetStringWithoutDblQuot(targetVal), out decimal retVal))
 			{
 				return 0;
 			}

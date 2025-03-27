@@ -80,7 +80,7 @@
 			button5.Name = "button5";
 			button5.Size = new Size(172, 23);
 			button5.TabIndex = 3;
-			button5.Text = "売電実績取込";
+			button5.Text = "売電実績登録";
 			button5.UseVisualStyleBackColor = true;
 			button5.Click += Button5_Click;
 			// 

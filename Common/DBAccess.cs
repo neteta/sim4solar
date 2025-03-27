@@ -37,7 +37,7 @@ namespace sim4solar.Common
 			}
 		}
 
-		private static int CreateTable(String sql)
+		private static int CreateTable(string sql)
 		{
 			return ExecuteNonQuery(sql, null);
 		}
@@ -48,7 +48,7 @@ namespace sim4solar.Common
 		/// <param name="sql">SQL</param>
 		/// <param name="parameters">Query Parameters</param>
 		/// <returns>Effected Rows Count</returns>
-		public static int Insert(String sql, Array? parameters)
+		public static int Insert(string sql, Array? parameters)
 		{
 			return ExecuteNonQuery(sql, parameters);
 		}
@@ -59,7 +59,7 @@ namespace sim4solar.Common
 		/// <param name="sql">SQL</param>
 		/// <param name="parameters">Query Parameters</param>
 		/// <returns>Effected Rows Count</returns>
-		public static int Update(String sql, Array? parameters)
+		public static int Update(string sql, Array? parameters)
 		{
 			return ExecuteNonQuery(sql, parameters);
 		}
@@ -70,12 +70,12 @@ namespace sim4solar.Common
 		/// <param name="sql">SQL</param>
 		/// <param name="parameters">Query Parameters</param>
 		/// <returns>Effected Rows Count</returns>
-		public static int Delete(String sql, Array? parameters)
+		public static int Delete(string sql, Array? parameters)
 		{
 			return ExecuteNonQuery(sql, parameters);
 		}
 
-		private static int ExecuteNonQuery(String sql, Array? parameters)
+		private static int ExecuteNonQuery(string sql, Array? parameters)
 		{
 			using var con = new SqliteConnection(GetConnectionString());
 			try
@@ -96,7 +96,7 @@ namespace sim4solar.Common
 		/// </summary>
 		/// <param name="sql">SQL</param>
 		/// <returns>Result Data</returns>
-		public static DataTable Select(String sql)
+		public static DataTable Select(string sql)
 		{
 			return GetData(sql, null);
 		}
@@ -107,12 +107,12 @@ namespace sim4solar.Common
 		/// <param name="sql">SQL Statement</param>
 		/// <param name="parameters">Query Parameters</param>
 		/// <returns>Result Data</returns>
-		public static DataTable Select(String sql, Array parameters)
+		public static DataTable Select(string sql, Array parameters)
 		{
 			return GetData(sql, parameters);
 		}
 
-		private static DataTable GetData(String sql, Array? parameters)
+		private static DataTable GetData(string sql, Array? parameters)
 		{
 			using var con = new SqliteConnection(GetConnectionString());
 			try
@@ -122,7 +122,7 @@ namespace sim4solar.Common
 				SqliteCommand cmd = GetCommand(con, sql, parameters);
 				SqliteDataReader dr = cmd.ExecuteReader();
 
-				DataTable dt = new DataTable();
+				DataTable dt = new();
 				dt.Load(dr);
 				return dt;
 			}

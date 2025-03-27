@@ -14,16 +14,13 @@ namespace sim4solar.Common
 
 		private static string GetTargetXml(SqlType sqlType)
 		{
-			switch (sqlType)
-			{
-				case SqlType.Select:
-					return "select.xml";
-				case SqlType.Insert:
-					return "registration.xml";
-				default:
-					return string.Empty;
-			}
-		}
+            return sqlType switch
+            {
+                SqlType.Select => "select.xml",
+                SqlType.Insert => "registration.xml",
+                _ => string.Empty,
+            };
+        }
 
 		public static string GetSelectSqlStatement(SqlType sqlType, string id)
 		{
