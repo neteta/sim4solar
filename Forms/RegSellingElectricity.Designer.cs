@@ -101,6 +101,7 @@
 			textBox2.Name = "textBox2";
 			textBox2.Size = new Size(106, 23);
 			textBox2.TabIndex = 6;
+			textBox2.Leave += TextBox2_Leave;
 			// 
 			// dateTimePicker2
 			// 

@@ -34,5 +34,10 @@ namespace sim4solar.Common
 			DataRow[] dr = dt.Select("code='" + subCode + "'");
 			return dr == null ? string.Empty : (string)dr[0]["value"];
 		}
+
+		public static DateTime GetDefaultDateTime(DateTime targetDate)
+		{
+			return new DateTime(targetDate.Year, targetDate.Month, 17);
+		}
 	}
 }

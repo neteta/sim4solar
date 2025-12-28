@@ -88,18 +88,25 @@ namespace sim4solar.Common
 		/// セット割引額等の取得
 		/// </summary>
 		/// <param name="dr">基準データ</param>
-		/// <param name="reEnergyCharge">再エネ促進賦課金</param>
-		/// <param name="coef">係数</param>
 		/// <returns></returns>
-		public static double GetDiscountPrice(DataRow dr, double reEnergyCharge, double coef)
+		public static double GetDiscountPrice(DataRow dr)
+		{
+			return GetDiscountPrice(
+				(double)dr["basic_price"],
+				(double)dr["price1"],
+				(double)dr["price2"],
+				(double)dr["price3"],
+				(double)dr["adjust_price"]);
+		}
+
+		public static double GetDiscountPrice(double basicPrice, double price1, double price2, double price3, double adjustPrice)
 		{
 			return -(
-				(double)dr["basic_price"]
-				+ (double)dr["price1"]
-				+ (double)dr["price2"]
-				+ (double)dr["price3"]
-				+ (double)dr["adjust_price"]
-				+ reEnergyCharge) * coef;
+				basicPrice
+				+ price1
+				+ price2
+				+ price3
+				+ adjustPrice) * 0.005;
 		}
 
 		/// <summary>
@@ -120,13 +127,25 @@ namespace sim4solar.Common
 		/// <returns>合計金額</returns>
 		public static double GetTotalCost(DataRow dr)
 		{
-			double totalCost = (double)dr["basic_price"]
-				+ (double)dr["price1"]
-				+ (double)dr["price2"]
-				+ (double)dr["price3"]
-				+ (double)dr["adjust_price"]
-				+ (double)dr["discount_price"]
-				+ (long)dr["re_energy_charge"];
+			return GetTotalCost(
+				(double)dr["basic_price"],
+				(double)dr["price1"],
+				(double)dr["price2"],
+				(double)dr["price3"],
+				(double)dr["adjust_price"],
+				(double)dr["discount_price"],
+				(long)dr["re_energy_charge"]);
+		}
+
+		public static double GetTotalCost(double basicPrice, double price1, double price2, double price3, double adjustPrice, double discountPrice, long reEnergyCharge)
+		{
+			double totalCost = basicPrice
+				+ price1
+				+ price2
+				+ price3
+				+ adjustPrice
+				+ discountPrice
+				+ reEnergyCharge;
 
 			return (int)totalCost;
 		}

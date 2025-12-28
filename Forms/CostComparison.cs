@@ -87,7 +87,7 @@ namespace sim4solar.Forms
 
 			DataRow achiveDr = dt.Rows[0];
 
-            string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
 			List<SqliteParameter> parameters =
 			[
 				new SqliteParameter("code", MainCode.C001),
@@ -126,7 +126,7 @@ namespace sim4solar.Forms
 			dr["price2"] = CommonCalc.GetPrice2(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_03));
 			dr["price3"] = CommonCalc.GetPrice3(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
 			dr["adjust_price"] = CommonCalc.GetAdjustPrice(intUsageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
-			dr["discount_price"] = CommonCalc.GetDiscountPrice(dr, reEnergeChage, 0.005);
+			dr["discount_price"] = CommonCalc.GetDiscountPrice(dr);
 			dr["re_energy_charge"] = reEnergeChage;
 			dr["usage_period_from"] = achiveDr["usage_period_from"];
 			dr["usage_period_to"] = achiveDr["usage_period_to"];

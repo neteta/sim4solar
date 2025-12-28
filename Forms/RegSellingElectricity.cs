@@ -14,6 +14,7 @@ namespace sim4solar.Forms
 		private void RegSellingElectricity_Load(object sender, EventArgs e)
 		{
 			MappingEvent();
+			dateTimePicker2.Value = CommonUtil.GetDefaultDateTime(DateTime.Today.AddMonths(-1));
 		}
 
 		private void MappingEvent()
@@ -27,12 +28,12 @@ namespace sim4solar.Forms
 			dateTimePicker2.ValueChanged += SetUsagePeriod;
 		}
 
-        private void SetUsagePeriod(object? sender, EventArgs e)
-        {
-            dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
-        }
+		private void SetUsagePeriod(object? sender, EventArgs e)
+		{
+			dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
+		}
 
-        private void Button1_Click(object sender, EventArgs e)
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
@@ -72,6 +73,17 @@ namespace sim4solar.Forms
 		private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
 		{
 			base.MonthlyDateTimePicker_ValueChanged(sender, e);
+		}
+
+		private void TextBox2_Leave(object sender, EventArgs e)
+		{
+			if (!int.TryParse(textBox2.Text, out int val))
+			{
+				return;
+			}
+
+			textBox1.Text = ((int)(val * 8.5M)).ToString();
+			SetNumericValueFormat(textBox1, e);
 		}
 	}
 }

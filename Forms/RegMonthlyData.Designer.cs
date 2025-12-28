@@ -285,6 +285,7 @@
 			textBox8.Size = new Size(106, 23);
 			textBox8.TabIndex = 12;
 			textBox8.TextAlign = HorizontalAlignment.Right;
+			textBox8.Leave += TextBox8_Leave;
 			// 
 			// label12
 			// 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
 using sim4solar.Forms;
+using System.Data;
+using System.Windows.Forms;
 
 namespace sim4solar
 {
@@ -19,6 +21,7 @@ namespace sim4solar
 		private void RegMonthlyData_Load(object sender, EventArgs e)
 		{
 			MappingEvent();
+			dateTimePicker2.Value = CommonUtil.GetDefaultDateTime(DateTime.Today.AddMonths(-2));
 		}
 
 		private void MappingEvent()
@@ -32,12 +35,12 @@ namespace sim4solar
 			dateTimePicker2.ValueChanged += SetUsagePeriod;
 		}
 
-        private void SetUsagePeriod(object? sender, EventArgs e)
-        {
-            dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
-        }
+		private void SetUsagePeriod(object? sender, EventArgs e)
+		{
+			dateTimePicker3.Value = dateTimePicker2.Value.AddMonths(1).AddDays(-1);
+		}
 
-        private void DateTimePicker1_DropDown(object sender, EventArgs e)
+		private void DateTimePicker1_DropDown(object sender, EventArgs e)
 		{
 			base.MonthlyDateTimePicker_DropDown(sender, e);
 		}
@@ -109,6 +112,62 @@ namespace sim4solar
 		private int GetMonth()
 		{
 			return dateTimePicker1.Value.Month;
+		}
+
+		private void TextBox8_Leave(object sender, EventArgs e)
+		{
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
+
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter("code", MainCode.C001),
+				// 使用期間の開始日を基準に取得
+				new SqliteParameter("targetDate", dateTimePicker2.Text.ToString().Replace("/", "-")),
+			];
+			DataTable dtMst = DBAccess.Select(sql, parameters.ToArray());
+
+			parameters.Clear();
+			parameters.Add(new SqliteParameter("code", MainCode.C001));
+
+			// 燃料調整費については、請求年月を基準に取得
+			parameters.Add(new SqliteParameter("targetDate", dateTimePicker1.Value.ToString("yyyy-MM-dd")));
+			DataTable dtMst4Adjust = DBAccess.Select(sql, parameters.ToArray());
+
+			AutoSettingData(int.Parse(((TextBox)sender).Text), dtMst, dtMst4Adjust, e);
+		}
+
+		private void AutoSettingData(int usageAmount, DataTable dtMst, DataTable dtMst4Adjust, EventArgs e)
+		{
+			double basicPrice = CommonUtil.GetDoubleValue(dtMst, SubCode.C001_01);
+			double price1 = CommonCalc.GetPrice1(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_02));
+			double price2 = CommonCalc.GetPrice2(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_03));
+			double price3 = CommonCalc.GetPrice3(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
+			double adjustPrice = CommonCalc.GetAdjustPrice(usageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
+			double reEnergeChage = CommonCalc.GetReEnergyCharge(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_05));
+			double discountPrice = CommonCalc.GetDiscountPrice(basicPrice, price1, price2, price3, adjustPrice);
+
+			textBox2.Text = basicPrice.ToString();
+			textBox3.Text = price1.ToString();
+			textBox4.Text = price2.ToString();
+			textBox9.Text = price3.ToString();
+			textBox5.Text = adjustPrice.ToString();
+			textBox6.Text = Convert.ToInt32(discountPrice).ToString();
+			textBox7.Text = reEnergeChage.ToString();
+			textBox1.Text = CommonCalc.GetTotalCost(basicPrice, price1, price2, price3, adjustPrice, discountPrice, long.Parse(reEnergeChage.ToString())).ToString();
+
+			SetFormat(e);
+		}
+
+		private void SetFormat(EventArgs e)
+		{
+			SetNumericValueFormat(textBox2, e);
+			SetNumericValueFormat(textBox3, e);
+			SetNumericValueFormat(textBox4, e);
+			SetNumericValueFormat(textBox9, e);
+			SetNumericValueFormat(textBox5, e);
+			SetNumericValueFormat(textBox6, e);
+			SetNumericValueFormat(textBox7, e);
+			SetNumericValueFormat(textBox1, e);
 		}
 	}
 }

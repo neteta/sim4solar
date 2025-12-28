@@ -55,28 +55,27 @@ namespace sim4solar.Forms
 				string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "power_generation_results");
 				int rowCount = 0;
 
-				using (StreamReader sr = new(textBox1.Text))
+				using StreamReader sr = new(textBox1.Text);
+				string? line;
+				while ((line = sr.ReadLine()) != null)
 				{
-					string? line;
-					while ((line = sr.ReadLine()) != null)
+					if (rowCount == 0)
 					{
-						if (rowCount == 0)
-						{
-							rowCount++;
-							continue;
-						}
-
 						rowCount++;
-						string[] array = line.Split(",");
+						continue;
+					}
 
-						if (string.IsNullOrEmpty(array[1]))
-						{
-							continue;
-						}
+					rowCount++;
+					string[] array = line.Split(",");
 
-						List<SqliteParameter> parameters =
-						[
-							new SqliteParameter("targetDate", CommonUtil.GetStringWithoutDblQuot(array[0])),
+					if (string.IsNullOrEmpty(array[1]))
+					{
+						continue;
+					}
+
+					List<SqliteParameter> parameters =
+					[
+						new SqliteParameter("targetDate", CommonUtil.GetStringWithoutDblQuot(array[0])),
 							new SqliteParameter("generateAmount", CommonUtil.GetDecimalValue(array[1])),
 							new SqliteParameter("consumptionAmount", CommonUtil.GetDecimalValue(array[2])),
 							new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(array[3])),
@@ -85,8 +84,7 @@ namespace sim4solar.Forms
 							new SqliteParameter("dischargeAmount", CommonUtil.GetDecimalValue(array[6])),
 						];
 
-						_ = DBAccess.Insert(insertSql, parameters.ToArray());
-					}
+					_ = DBAccess.Insert(insertSql, parameters.ToArray());
 				}
 			}
 			catch (Exception ex)
