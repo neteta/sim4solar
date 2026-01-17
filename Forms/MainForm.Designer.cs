@@ -76,7 +76,7 @@
 			// 
 			// button5
 			// 
-			button5.Location = new Point(0, 77);
+			button5.Location = new Point(1, 80);
 			button5.Name = "button5";
 			button5.Size = new Size(172, 23);
 			button5.TabIndex = 3;
@@ -86,7 +86,7 @@
 			// 
 			// button4
 			// 
-			button4.Location = new Point(0, 48);
+			button4.Location = new Point(1, 51);
 			button4.Name = "button4";
 			button4.Size = new Size(172, 23);
 			button4.TabIndex = 0;
@@ -96,10 +96,10 @@
 			// 
 			// button3
 			// 
-			button3.Location = new Point(2, 213);
+			button3.Location = new Point(0, 213);
 			button3.Margin = new Padding(2);
 			button3.Name = "button3";
-			button3.Size = new Size(173, 20);
+			button3.Size = new Size(173, 23);
 			button3.TabIndex = 2;
 			button3.Text = "設定";
 			button3.UseVisualStyleBackColor = true;
@@ -118,10 +118,10 @@
 			// 
 			// button2
 			// 
-			button2.Location = new Point(-1, 132);
+			button2.Location = new Point(0, 132);
 			button2.Margin = new Padding(2);
 			button2.Name = "button2";
-			button2.Size = new Size(173, 20);
+			button2.Size = new Size(173, 23);
 			button2.TabIndex = 0;
 			button2.Text = "料金比較";
 			button2.UseVisualStyleBackColor = true;
@@ -154,7 +154,7 @@
 			button1.Location = new Point(0, 23);
 			button1.Margin = new Padding(2);
 			button1.Name = "button1";
-			button1.Size = new Size(173, 20);
+			button1.Size = new Size(173, 23);
 			button1.TabIndex = 0;
 			button1.Text = "電気料金登録";
 			button1.UseVisualStyleBackColor = true;

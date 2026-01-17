@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
+using sim4solar.Entity;
 using System.Data;
 
 namespace sim4solar.Forms
@@ -34,12 +35,12 @@ namespace sim4solar.Forms
 		private void GetTargetCost(object sender)
 		{
 			DateTime targetYM = dateTimePicker1.Value;
-			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "electricity_bill");
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_ELECTRICITY_BILL);
 
 			List<SqliteParameter> parameters =
 				[
-					new SqliteParameter("year", targetYM.Year),
-					new SqliteParameter("month", targetYM.Month)
+					new SqliteParameter(ElectricityBill.YEAR, targetYM.Year),
+					new SqliteParameter(ElectricityBill.MONTH, targetYM.Month)
 				];
 
 			DataTable dt = DBAccess.Select(sql, parameters.ToArray());
@@ -49,10 +50,10 @@ namespace sim4solar.Forms
 				return;
 			}
 
-			sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "power_generation_results");
+			sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_POWER_GENERATION_RESULTS);
 			parameters.Clear();
-			parameters.Add(new SqliteParameter("start", (string)dt.Rows[0]["usage_period_from"]));
-			parameters.Add(new SqliteParameter("end", (string)dt.Rows[0]["usage_period_to"]));
+			parameters.Add(new SqliteParameter(PowerGenerationResults.SEARCH_START_DATE, (string)dt.Rows[0][ElectricityBill.USAGE_PERIOD_FROM]));
+			parameters.Add(new SqliteParameter(PowerGenerationResults.SEARCH_END_DATE, (string)dt.Rows[0][ElectricityBill.USAGE_PERIOD_TO]));
 
 			DataTable dtPowerGenResult = DBAccess.Select(sql, parameters.ToArray());
 
@@ -74,10 +75,10 @@ namespace sim4solar.Forms
 
 		private void GetHeaderLabel(DataTable dt)
 		{
-			label3.Text = ((string)dt.Rows[0]["usage_period_from"]).Replace("-", "/");
-			label5.Text = ((string)dt.Rows[0]["usage_period_to"]).Replace("-", "/");
+			label3.Text = ((string)dt.Rows[0][ElectricityBill.USAGE_PERIOD_FROM]).Replace("-", "/");
+			label5.Text = ((string)dt.Rows[0][ElectricityBill.USAGE_PERIOD_TO]).Replace(" -", "/");
 			label7.Text = string.Format("{0:N0}",
-				(long)dt.Rows[1]["total_cost"] - (long)dt.Rows[0]["total_cost"]) + "円";
+				(long)dt.Rows[1][ElectricityBill.TOTAL_COST] - (long)dt.Rows[0][ElectricityBill.TOTAL_COST]) + "円";
 		}
 
 		private void GetComparisonRow(DataTable dt, DataTable dtPowerGenResult)
@@ -87,12 +88,12 @@ namespace sim4solar.Forms
 
 			DataRow achiveDr = dt.Rows[0];
 
-			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_MST_CODE);
 			List<SqliteParameter> parameters =
 			[
-				new SqliteParameter("code", MainCode.C001),
+				new SqliteParameter(MstCode.CODE, MainCode.C001),
 				// 使用期間の開始日を基準に取得
-				new SqliteParameter("targetDate", achiveDr["usage_period_from"]),
+				new SqliteParameter(MstCode.TARGET_DATE, achiveDr[ElectricityBill.USAGE_PERIOD_FROM]),
 			];
 			DataTable dtMst = DBAccess.Select(sql, parameters.ToArray());
 			if (dtMst.Rows.Count == 0)
@@ -102,9 +103,9 @@ namespace sim4solar.Forms
 			}
 
 			parameters.Clear();
-			parameters.Add(new SqliteParameter("code", MainCode.C001));
+			parameters.Add(new SqliteParameter(MstCode.CODE, MainCode.C001));
 			// 燃料調整費については、請求年月を基準に取得
-			parameters.Add(new SqliteParameter("targetDate", dateTimePicker1.Value.ToString("yyyy-MM-dd")));
+			parameters.Add(new SqliteParameter(MstCode.TARGET_DATE, dateTimePicker1.Value.ToString("yyyy-MM-dd")));
 			DataTable dtMst4Adjust = DBAccess.Select(sql, parameters.ToArray());
 
 			if (dtMst4Adjust.Rows.Count == 0)
@@ -119,50 +120,50 @@ namespace sim4solar.Forms
 			double reEnergeChage = CommonCalc.GetReEnergyCharge(intUsageAmount,
 				CommonUtil.GetDoubleValue(dtMst, SubCode.C001_05));
 
-			dr["year"] = achiveDr["year"];
-			dr["month"] = achiveDr["month"];
-			dr["basic_price"] = achiveDr["basic_price"];
-			dr["price1"] = CommonCalc.GetPrice1(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_02));
-			dr["price2"] = CommonCalc.GetPrice2(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_03));
-			dr["price3"] = CommonCalc.GetPrice3(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
-			dr["adjust_price"] = CommonCalc.GetAdjustPrice(intUsageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
-			dr["discount_price"] = CommonCalc.GetDiscountPrice(dr);
-			dr["re_energy_charge"] = reEnergeChage;
-			dr["usage_period_from"] = achiveDr["usage_period_from"];
-			dr["usage_period_to"] = achiveDr["usage_period_to"];
-			dr["usage_amount"] = usageAmount;
-			dr["total_cost"] = CommonCalc.GetTotalCost(dr);
+			dr[ElectricityBill.YEAR] = achiveDr[ElectricityBill.YEAR];
+			dr[ElectricityBill.MONTH] = achiveDr[ElectricityBill.MONTH];
+			dr[ElectricityBill.BASIC_PRICE] = achiveDr[ElectricityBill.BASIC_PRICE];
+			dr[ElectricityBill.PRICE1] = CommonCalc.GetPrice1(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_02));
+			dr[ElectricityBill.PRICE2] = CommonCalc.GetPrice2(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_03));
+			dr[ElectricityBill.PRICE3] = CommonCalc.GetPrice3(intUsageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
+			dr[ElectricityBill.ADJUST_PRICE] = CommonCalc.GetAdjustPrice(intUsageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
+			dr[ElectricityBill.DISCOUNT_PRICE] = CommonCalc.GetDiscountPrice(dr);
+			dr[ElectricityBill.RE_ENERGY_CHARGE] = reEnergeChage;
+			dr[ElectricityBill.USAGE_PERIOD_FROM] = achiveDr[ElectricityBill.USAGE_PERIOD_FROM];
+			dr[ElectricityBill.USAGE_PERIOD_TO] = achiveDr[ElectricityBill.USAGE_PERIOD_TO];
+			dr[ElectricityBill.USAGE_AMOUNT] = usageAmount;
+			dr[ElectricityBill.TOTAL_COST] = CommonCalc.GetTotalCost(dr);
 
 			dt.Rows.Add(dr);
 		}
 
 		private void SetColumnsName()
 		{
-			dataGridView1.Columns["year"].HeaderText = "年";
-			dataGridView1.Columns["month"].HeaderText = "月";
-			dataGridView1.Columns["total_cost"].HeaderText = "電気料金\r\n合計";
-			dataGridView1.Columns["basic_price"].HeaderText = "基本料金";
-			dataGridView1.Columns["price1"].HeaderText = "電気料金\r\n1段階目";
-			dataGridView1.Columns["price2"].HeaderText = "電気料金\r\n2段階目";
-			dataGridView1.Columns["price3"].HeaderText = "電気料金\r\n3段階目";
-			dataGridView1.Columns["adjust_price"].HeaderText = "燃料費\r\n調整額";
-			dataGridView1.Columns["discount_price"].HeaderText = "セット\r\n割引額等";
-			dataGridView1.Columns["re_energy_charge"].HeaderText = "再エネ\r\n促進賦課金";
-			dataGridView1.Columns["usage_period_from"].HeaderText = "使用期間\r\n開始日";
-			dataGridView1.Columns["usage_period_to"].HeaderText = "使用期間\r\n終了日";
-			dataGridView1.Columns["usage_amount"].HeaderText = "使用量[kWh]";
+			dataGridView1.Columns[ElectricityBill.YEAR].HeaderText = "年";
+			dataGridView1.Columns[ElectricityBill.MONTH].HeaderText = "月";
+			dataGridView1.Columns[ElectricityBill.TOTAL_COST].HeaderText = "電気料金\r\n合計";
+			dataGridView1.Columns[ElectricityBill.BASIC_PRICE].HeaderText = "基本料金";
+			dataGridView1.Columns[ElectricityBill.PRICE1].HeaderText = "電気料金\r\n1段階目";
+			dataGridView1.Columns[ElectricityBill.PRICE2].HeaderText = "電気料金\r\n2段階目";
+			dataGridView1.Columns[ElectricityBill.PRICE3].HeaderText = "電気料金\r\n3段階目";
+			dataGridView1.Columns[ElectricityBill.ADJUST_PRICE].HeaderText = "燃料費\r\n調整額";
+			dataGridView1.Columns[ElectricityBill.DISCOUNT_PRICE].HeaderText = "セット\r\n割引額等";
+			dataGridView1.Columns[ElectricityBill.RE_ENERGY_CHARGE].HeaderText = "再エネ\r\n促進賦課金";
+			dataGridView1.Columns[ElectricityBill.USAGE_PERIOD_FROM].HeaderText = "使用期間\r\n開始日";
+			dataGridView1.Columns[ElectricityBill.USAGE_PERIOD_TO].HeaderText = "使用期間\r\n終了日";
+			dataGridView1.Columns[ElectricityBill.USAGE_AMOUNT].HeaderText = "使用量[kWh]";
 		}
 
 		private void SetFormat()
 		{
-			dataGridView1.Columns["total_cost"].DefaultCellStyle.Format = "N0";
-			dataGridView1.Columns["basic_price"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["price1"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["price2"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["price3"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["adjust_price"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["discount_price"].DefaultCellStyle.Format = "#,0.##";
-			dataGridView1.Columns["usage_amount"].DefaultCellStyle.Format = "N0";
+			dataGridView1.Columns[ElectricityBill.TOTAL_COST].DefaultCellStyle.Format = "N0";
+			dataGridView1.Columns[ElectricityBill.BASIC_PRICE].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.PRICE1].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.PRICE2].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.PRICE3].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.ADJUST_PRICE].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.DISCOUNT_PRICE].DefaultCellStyle.Format = "#,0.##";
+			dataGridView1.Columns[ElectricityBill.USAGE_AMOUNT].DefaultCellStyle.Format = "N0";
 		}
 
 		private void InsertColumn()

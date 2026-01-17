@@ -16,8 +16,8 @@
 		(target_date, generate_amount, consumption_amount,
 		sales_amount, purchased_amount, charge_amount, discharge_amount)
 		VALUES
-		(@targetDate, @generateAmount, @consumptionAmount,
-		@salesAmount, @purchasedAmount, @chargeAmount, @dischargeAmount);
+		(@target_date, @generate_amount, @consumption_amount,
+		@sales_amount, @purchased_amount, @charge_amount, @discharge_amount);
 	</sql>
 
 	<sql id="selling_electricity">
@@ -25,7 +25,7 @@
 		(year, month, sales_amount,
 		usage_period_from, usage_period_to, electric_energy)
 		VALUES
-		(@year, @month, @salesAmount,
-		@usagePeriodFrom, @usagePeriodTo, @electricEnergy);
+		(@year, @month, @sales_amount,
+		@usage_period_from, @usage_period_to, @electric_energy);
 	</sql>
 </script>

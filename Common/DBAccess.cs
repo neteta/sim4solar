@@ -9,11 +9,10 @@ namespace sim4solar.Common
 	/// </summary>
 	internal static class DBAccess
 	{
-		private const string DB_FILENAME = "sim4solar.db";
 
 		private static String GetConnectionString()
 		{
-			return "DataSource=" + Environment.CurrentDirectory + "\\" + DB_FILENAME;
+			return "DataSource=" + Environment.CurrentDirectory + @"\" + DBConsts.DB_FILE_NAME;
 		}
 
 		/// <summary>
@@ -26,8 +25,8 @@ namespace sim4solar.Common
 
 		private static void CreateTable()
 		{
-			XElement xml = XElement.Load(Environment.CurrentDirectory + "\\" + @"Query\initialize.xml");
-			var ddlScripts = from item in xml.Elements("sql")
+			XElement xml = XElement.Load(string.Join(@"\", [Environment.CurrentDirectory, DBConsts.QUERY_PATH, DBConsts.INITIALIZE_XML]));
+			var ddlScripts = from item in xml.Elements(DBConsts.SQL_TAG_NAME)
 											 select item.Value;
 
 			foreach (var script in ddlScripts)

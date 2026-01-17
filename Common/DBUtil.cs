@@ -16,18 +16,18 @@ namespace sim4solar.Common
 		{
 			return sqlType switch
 			{
-				SqlType.Select => "select.xml",
-				SqlType.Insert => "registration.xml",
+				SqlType.Select => DBConsts.SELECT_XML,
+				SqlType.Insert => DBConsts.REGISTRATION_XML,
 				_ => string.Empty,
 			};
 		}
 
 		public static string GetSelectSqlStatement(SqlType sqlType, string id)
 		{
-			XElement xml = XElement.Load(Environment.CurrentDirectory + @"\Query\" + GetTargetXml(sqlType));
-			var sql = from item in xml.Elements("sql")
-					  where item?.Attribute("id")?.Value == id
-					  select item.Value;
+			XElement xml = XElement.Load(string.Join(@"\", [Environment.CurrentDirectory, DBConsts.QUERY_PATH, GetTargetXml(sqlType)]));
+			var sql = from item in xml.Elements(DBConsts.SQL_TAG_NAME)
+								where item?.Attribute(DBConsts.ATTRIBUTE_ID)?.Value == id
+								select item.Value;
 			return sql.First().ToString() ?? "";
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using sim4solar.Entity;
+using System.Data;
 
 namespace sim4solar.Common
 {
@@ -13,7 +14,7 @@ namespace sim4solar.Common
 
 			foreach (DataRow dr in dt.Rows)
 			{
-				price += (double)dr["consumption_amount"]; // 消費電力量
+				price += (double)dr[PowerGenerationResults.CONSUMPTION_AMOUNT]; // 消費電力量
 			}
 
 			// 切り捨て
@@ -28,9 +29,9 @@ namespace sim4solar.Common
 		/// <returns>電力量料金 1段階目</returns>
 		public static double GetPrice1(int usageAmount, double coef)
 		{
-			if (usageAmount > 120)
+			if (usageAmount > Consts.THRESHOLD_1ST)
 			{
-				usageAmount = 120;
+				usageAmount = Consts.THRESHOLD_1ST;
 			}
 
 			return usageAmount * coef;
@@ -44,17 +45,17 @@ namespace sim4solar.Common
 		/// <returns>電力量料金 2段階目</returns>
 		public static double GetPrice2(int usageAmount, double coef)
 		{
-			if (usageAmount <= 120)
+			if (usageAmount <= Consts.THRESHOLD_1ST)
 			{
 				return 0;
 			}
 
-			if (usageAmount > 300)
+			if (usageAmount > Consts.THRESHOLD_2ND)
 			{
-				usageAmount = 300;
+				usageAmount = Consts.THRESHOLD_2ND;
 			}
 
-			return (usageAmount - 120) * coef;
+			return (usageAmount - Consts.THRESHOLD_1ST) * coef;
 		}
 
 		/// <summary>
@@ -65,12 +66,12 @@ namespace sim4solar.Common
 		/// <returns>電力量料金 3段階目</returns>
 		public static double GetPrice3(int usageAmount, double coef)
 		{
-			if (usageAmount <= 300)
+			if (usageAmount <= Consts.THRESHOLD_2ND)
 			{
 				return 0;
 			}
 
-			return (usageAmount - 300) * coef;
+			return (usageAmount - Consts.THRESHOLD_2ND) * coef;
 		}
 
 		/// <summary>
@@ -92,11 +93,11 @@ namespace sim4solar.Common
 		public static double GetDiscountPrice(DataRow dr)
 		{
 			return GetDiscountPrice(
-				(double)dr["basic_price"],
-				(double)dr["price1"],
-				(double)dr["price2"],
-				(double)dr["price3"],
-				(double)dr["adjust_price"]);
+				(double)dr[ElectricityBill.BASIC_PRICE],
+				(double)dr[ElectricityBill.PRICE1],
+				(double)dr[ElectricityBill.PRICE2],
+				(double)dr[ElectricityBill.PRICE3],
+				(double)dr[ElectricityBill.ADJUST_PRICE]);
 		}
 
 		public static double GetDiscountPrice(double basicPrice, double price1, double price2, double price3, double adjustPrice)
@@ -106,7 +107,7 @@ namespace sim4solar.Common
 				+ price1
 				+ price2
 				+ price3
-				+ adjustPrice) * 0.005;
+				+ adjustPrice) * Consts.DISCOUNT_COEFFICIENT;
 		}
 
 		/// <summary>
@@ -128,13 +129,13 @@ namespace sim4solar.Common
 		public static double GetTotalCost(DataRow dr)
 		{
 			return GetTotalCost(
-				(double)dr["basic_price"],
-				(double)dr["price1"],
-				(double)dr["price2"],
-				(double)dr["price3"],
-				(double)dr["adjust_price"],
-				(double)dr["discount_price"],
-				(long)dr["re_energy_charge"]);
+				(double)dr[ElectricityBill.BASIC_PRICE],
+				(double)dr[ElectricityBill.PRICE1],
+				(double)dr[ElectricityBill.PRICE2],
+				(double)dr[ElectricityBill.PRICE3],
+				(double)dr[ElectricityBill.ADJUST_PRICE],
+				(double)dr[ElectricityBill.DISCOUNT_PRICE],
+				(long)dr[ElectricityBill.RE_ENERGY_CHARGE]);
 		}
 
 		public static double GetTotalCost(double basicPrice, double price1, double price2, double price3, double adjustPrice, double discountPrice, long reEnergyCharge)

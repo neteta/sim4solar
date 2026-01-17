@@ -47,7 +47,7 @@
 			if (txt == null) { return; }
 
 			if (!double.TryParse(txt.Text, out double parseVal)) { return; }
-			txt.Text = parseVal.ToString("#,##0.##");
+			txt.Text = parseVal.ToString("#,0.##");
 		}
 	}
 }

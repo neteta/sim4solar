@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using sim4solar.Entity;
+using System.Data;
 
 namespace sim4solar.Common
 {
@@ -31,8 +32,8 @@ namespace sim4solar.Common
 
 		public static string GetStringValue(DataTable dt, string subCode)
 		{
-			DataRow[] dr = dt.Select("code='" + subCode + "'");
-			return dr == null ? string.Empty : (string)dr[0]["value"];
+			DataRow[] dr = dt.Select(MstCode.CODE + "='" + subCode + "'");
+			return dr == null ? string.Empty : (string)dr[0][MstCode.VALUE];
 		}
 
 		public static DateTime GetDefaultDateTime(DateTime targetDate)

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
+using sim4solar.Entity;
 using sim4solar.Forms;
 using System.Data;
-using System.Windows.Forms;
 
 namespace sim4solar
 {
@@ -82,23 +82,23 @@ namespace sim4solar
 
 		private void RegData()
 		{
-			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "electricity_bill");
+			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, DBConsts.QUERY_ID_ELECTRICITY_BILL);
 
 			List<SqliteParameter> parameters =
 			[
-				new SqliteParameter("year", GetYear()),
-				new SqliteParameter("month", GetMonth()),
-				new SqliteParameter("total_cost", CommonUtil.GetDecimalValue(textBox1.Text)),
-				new SqliteParameter("basic_price", CommonUtil.GetDecimalValue(textBox2.Text)),
-				new SqliteParameter("price1", CommonUtil.GetDecimalValue(textBox3.Text)),
-				new SqliteParameter("price2", CommonUtil.GetDecimalValue(textBox4.Text)),
-				new SqliteParameter("price3", CommonUtil.GetDecimalValue(textBox9.Text)),
-				new SqliteParameter("adjust_price", CommonUtil.GetDecimalValue(textBox5.Text)),
-				new SqliteParameter("discount_price", CommonUtil.GetDecimalValue(textBox6.Text)),
-				new SqliteParameter("re_energy_charge", CommonUtil.GetDecimalValue(textBox7.Text)),
-				new SqliteParameter("usage_period_from", CommonUtil.GetDate(dateTimePicker2.Value)),
-				new SqliteParameter("usage_period_to", CommonUtil.GetDate(dateTimePicker3.Value)),
-				new SqliteParameter("usage_amount", CommonUtil.GetDecimalValue(textBox8.Text)),
+				new SqliteParameter(ElectricityBill.YEAR, GetYear()),
+				new SqliteParameter(ElectricityBill.MONTH, GetMonth()),
+				new SqliteParameter(ElectricityBill.TOTAL_COST, CommonUtil.GetDecimalValue(textBox1.Text)),
+				new SqliteParameter(ElectricityBill.BASIC_PRICE, CommonUtil.GetDecimalValue(textBox2.Text)),
+				new SqliteParameter(ElectricityBill.PRICE1, CommonUtil.GetDecimalValue(textBox3.Text)),
+				new SqliteParameter(ElectricityBill.PRICE2, CommonUtil.GetDecimalValue(textBox4.Text)),
+				new SqliteParameter(ElectricityBill.PRICE3, CommonUtil.GetDecimalValue(textBox9.Text)),
+				new SqliteParameter(ElectricityBill.ADJUST_PRICE, CommonUtil.GetDecimalValue(textBox5.Text)),
+				new SqliteParameter(ElectricityBill.DISCOUNT_PRICE, CommonUtil.GetDecimalValue(textBox6.Text)),
+				new SqliteParameter(ElectricityBill.RE_ENERGY_CHARGE, CommonUtil.GetDecimalValue(textBox7.Text)),
+				new SqliteParameter(ElectricityBill.USAGE_PERIOD_FROM, CommonUtil.GetDate(dateTimePicker2.Value)),
+				new SqliteParameter(ElectricityBill.USAGE_PERIOD_TO, CommonUtil.GetDate(dateTimePicker3.Value)),
+				new SqliteParameter(ElectricityBill.USAGE_AMOUNT, CommonUtil.GetDecimalValue(textBox8.Text)),
 			];
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
@@ -116,21 +116,21 @@ namespace sim4solar
 
 		private void TextBox8_Leave(object sender, EventArgs e)
 		{
-			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, "mst_code");
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_MST_CODE);
 
 			List<SqliteParameter> parameters =
 			[
-				new SqliteParameter("code", MainCode.C001),
+				new SqliteParameter(MstCode.CODE, MainCode.C001),
 				// 使用期間の開始日を基準に取得
-				new SqliteParameter("targetDate", dateTimePicker2.Text.ToString().Replace("/", "-")),
+				new SqliteParameter(MstCode.TARGET_DATE, dateTimePicker2.Text.ToString().Replace("/", "-")),
 			];
 			DataTable dtMst = DBAccess.Select(sql, parameters.ToArray());
 
 			parameters.Clear();
-			parameters.Add(new SqliteParameter("code", MainCode.C001));
+			parameters.Add(new SqliteParameter(MstCode.CODE, MainCode.C001));
 
 			// 燃料調整費については、請求年月を基準に取得
-			parameters.Add(new SqliteParameter("targetDate", dateTimePicker1.Value.ToString("yyyy-MM-dd")));
+			parameters.Add(new SqliteParameter(MstCode.TARGET_DATE, dateTimePicker1.Value.ToString("yyyy-MM-dd")));
 			DataTable dtMst4Adjust = DBAccess.Select(sql, parameters.ToArray());
 
 			AutoSettingData(int.Parse(((TextBox)sender).Text), dtMst, dtMst4Adjust, e);

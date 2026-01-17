@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using sim4solar.Common;
+using sim4solar.Entity;
 using TextBox = System.Windows.Forms.TextBox;
 
 namespace sim4solar.Forms
@@ -42,12 +43,12 @@ namespace sim4solar.Forms
 
 			List<SqliteParameter> parameters =
 			[
-				new SqliteParameter("year", GetYear()),
-				new SqliteParameter("month", GetMonth()),
-				new SqliteParameter("salesAmount", CommonUtil.GetDecimalValue(textBox1.Text)),
-				new SqliteParameter("usagePeriodFrom", CommonUtil.GetDate(dateTimePicker2.Value)),
-				new SqliteParameter("usagePeriodTo", CommonUtil.GetDate(dateTimePicker3.Value)),
-				new SqliteParameter("electricEnergy", CommonUtil.GetDecimalValue(textBox2.Text)),
+				new SqliteParameter(SellingElectricity.YEAR, GetYear()),
+				new SqliteParameter(SellingElectricity.MONTH, GetMonth()),
+				new SqliteParameter(SellingElectricity.SALES_AMOUNT, CommonUtil.GetDecimalValue(textBox1.Text)),
+				new SqliteParameter(SellingElectricity.USAGE_PERIOD_FROM, CommonUtil.GetDate(dateTimePicker2.Value)),
+				new SqliteParameter(SellingElectricity.USAGE_PERIOD_TO, CommonUtil.GetDate(dateTimePicker3.Value)),
+				new SqliteParameter(SellingElectricity.ELECTRIC_ENERGY, CommonUtil.GetDecimalValue(textBox2.Text)),
 			];
 
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
@@ -82,7 +83,7 @@ namespace sim4solar.Forms
 				return;
 			}
 
-			textBox1.Text = ((int)(val * 8.5M)).ToString();
+			textBox1.Text = ((int)(val * Consts.FIT)).ToString();
 			SetNumericValueFormat(textBox1, e);
 		}
 	}
