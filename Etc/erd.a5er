@@ -1,7 +1,7 @@
-﻿# A5:ER FORMAT:19
+﻿# A5:ER FORMAT:21
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright © 2007 m.matsubara
-# A5:SQL Mk-2 Version 2.20.0 Copyright © 1997 - 2025 m.matsubara
+# A5:SQL Mk-2 Version 2.21.0 Copyright © 1997 - 2026 m.matsubara
 #  https://a5m2.mmatsubara.com
 
 [Manager]
@@ -9,12 +9,9 @@ ProjectName=sim4solar
 Author=
 MaxEntityRowShow=1000
 ReadOnlyRecommend=0
-Page=Main
 PageInfo="Main",2,"A4Landscape",$FFFFFF
 LogicalView=1
 DecodeDomain=0
-ViewModePageIndividually=1
-ViewMode=2
 ViewFormat=0
 UseNondependenceDashLine=0
 FontName=Tahoma
@@ -39,6 +36,7 @@ SqlSeparator=0
 UpperCaseKeyword=0
 ShowTag=1
 ShowCommonAttributes=0
+ShowDisableAttributes=0
 BugFixEntityWidth=1
 
 [Entity]
@@ -60,7 +58,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20241214215856
-Position="MAIN",700,100
+Position="Main",700,100
 ZOrder=3
 
 [Entity]
@@ -89,7 +87,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20240825151423
-Position="MAIN",100,100
+Position="Main",100,100
 ZOrder=1
 
 [Entity]
@@ -112,7 +110,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20240825151114
-Position="MAIN",400,100
+Position="Main",400,100
 ZOrder=2
 
 [Entity]
@@ -121,7 +119,7 @@ LName=コードマスタ
 Comment=
 TableInnerOption=
 TableOption=
-Page=Main
+Page=MAIN
 Left=1000
 Top=100
 Field="適用開始日","start_date","TEXT","NOT NULL",0,"","",$FFFFFFFF,""
