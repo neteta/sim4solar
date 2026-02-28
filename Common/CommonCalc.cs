@@ -90,7 +90,7 @@ namespace sim4solar.Common
 		/// </summary>
 		/// <param name="dr">基準データ</param>
 		/// <returns></returns>
-		public static double GetDiscountPrice(DataRow dr)
+		public static int GetDiscountPrice(DataRow dr)
 		{
 			return GetDiscountPrice(
 				(double)dr[ElectricityBill.BASIC_PRICE],
@@ -100,14 +100,14 @@ namespace sim4solar.Common
 				(double)dr[ElectricityBill.ADJUST_PRICE]);
 		}
 
-		public static double GetDiscountPrice(double basicPrice, double price1, double price2, double price3, double adjustPrice)
+		public static int GetDiscountPrice(double basicPrice, double price1, double price2, double price3, double adjustPrice)
 		{
-			return -(
+			return - (int)Math.Truncate((
 				basicPrice
 				+ price1
 				+ price2
 				+ price3
-				+ adjustPrice) * Consts.DISCOUNT_COEFFICIENT;
+				+ adjustPrice) * Consts.DISCOUNT_COEFFICIENT);
 		}
 
 		/// <summary>

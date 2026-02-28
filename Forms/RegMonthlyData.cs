@@ -144,14 +144,14 @@ namespace sim4solar
 			double price3 = CommonCalc.GetPrice3(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_04));
 			double adjustPrice = CommonCalc.GetAdjustPrice(usageAmount, CommonUtil.GetDoubleValue(dtMst4Adjust, SubCode.C001_06));
 			double reEnergeChage = CommonCalc.GetReEnergyCharge(usageAmount, CommonUtil.GetDoubleValue(dtMst, SubCode.C001_05));
-			double discountPrice = CommonCalc.GetDiscountPrice(basicPrice, price1, price2, price3, adjustPrice);
+			int discountPrice = CommonCalc.GetDiscountPrice(basicPrice, price1, price2, price3, adjustPrice);
 
 			textBox2.Text = basicPrice.ToString();
 			textBox3.Text = price1.ToString();
 			textBox4.Text = price2.ToString();
 			textBox9.Text = price3.ToString();
 			textBox5.Text = adjustPrice.ToString();
-			textBox6.Text = Convert.ToInt32(discountPrice).ToString();
+			textBox6.Text = discountPrice.ToString();
 			textBox7.Text = reEnergeChage.ToString();
 			textBox1.Text = CommonCalc.GetTotalCost(basicPrice, price1, price2, price3, adjustPrice, discountPrice, long.Parse(reEnergeChage.ToString())).ToString();
 
