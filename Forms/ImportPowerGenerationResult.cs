@@ -65,6 +65,15 @@ namespace sim4solar.Forms
 						rowCount++;
 						continue;
 					}
+					else if (rowCount == 1)
+					{
+						string targetDate = CommonUtil.GetStringWithoutDblQuot(line.Split(",")[0]);
+						if (CheckExistData(targetDate))
+						{
+							MessageBox.Show($"既に{targetDate}のデータが存在しています。取込を中止します。", "データ重複", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							return;
+						}
+					}
 
 					rowCount++;
 					string[] array = line.Split(",");
@@ -96,6 +105,20 @@ namespace sim4solar.Forms
 			}
 
 			MessageBox.Show("取込完了");
+		}
+
+		private bool CheckExistData(string targetDate)
+		{
+			string selectSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_POWER_GENERATION_RESULTS);
+
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter(PowerGenerationResults.SEARCH_START_DATE, targetDate),
+				new SqliteParameter(PowerGenerationResults.SEARCH_END_DATE, targetDate),
+			];
+
+			var dt = DBAccess.Select(selectSql, parameters.ToArray());
+			return dt.Rows.Count > 0;
 		}
 	}
 }

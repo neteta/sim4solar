@@ -11,6 +11,11 @@
 		ORDER BY target_date;
 	</sql>
 
+	<sql id="selling_electricity">
+		SELECT * FROM selling_electricity
+		WHERE year = @year AND month = @month;
+	</sql>
+
 	<sql id="mst_code">
 		SELECT * FROM mst_code
 		WHERE substr(code, 1, 4) = @code

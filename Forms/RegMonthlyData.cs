@@ -55,6 +55,12 @@ namespace sim4solar
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
 
+			if (CheckExistData())
+			{
+				MessageBox.Show("既に登録されているデータがあります。", "登録済みデータ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			if (!CheckInputData())
 			{
 				MessageBox.Show("入力データの整合性が取れていません。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -64,6 +70,21 @@ namespace sim4solar
 			RegData();
 
 			MessageBox.Show("登録しました。", "データ登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private bool CheckExistData()
+		{
+			string sql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_ELECTRICITY_BILL);
+
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter(ElectricityBill.YEAR, GetYear()),
+				new SqliteParameter(ElectricityBill.MONTH, GetMonth()),
+			];
+
+			DataTable dt = DBAccess.Select(sql, parameters.ToArray());
+
+			return dt.Rows.Count > 0;
 		}
 
 		private bool CheckInputData()

@@ -39,7 +39,13 @@ namespace sim4solar.Forms
 			DialogResult dr = MessageBox.Show("登録します。よろしいですか？", "データ登録", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.No) { return; }
 
-			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, "selling_electricity");
+			if (CheckExistData())
+			{
+				MessageBox.Show("既に登録済みのデータがあります。", "データ登録", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			string insertSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Insert, DBConsts.QUERY_ID_SELLING_ELECTRICITY);
 
 			List<SqliteParameter> parameters =
 			[
@@ -54,6 +60,20 @@ namespace sim4solar.Forms
 			_ = DBAccess.Insert(insertSql, parameters.ToArray());
 
 			MessageBox.Show("登録しました。", "データ登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private bool CheckExistData()
+		{
+			string selectSql = DBUtil.GetSelectSqlStatement(DBUtil.SqlType.Select, DBConsts.QUERY_ID_SELLING_ELECTRICITY);
+
+			List<SqliteParameter> parameters =
+			[
+				new SqliteParameter("year", GetYear()),
+				new SqliteParameter("month", GetMonth()),
+			];
+
+			var dt = DBAccess.Select(selectSql, parameters.ToArray());
+			return dt.Rows.Count > 0;
 		}
 
 		private int GetYear()

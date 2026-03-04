@@ -50,5 +50,10 @@
 		/// クエリID：power_generation_results
 		/// </summary>
 		public const string QUERY_ID_POWER_GENERATION_RESULTS = "power_generation_results";
+
+		/// <summary>
+		/// クエリID：selling_electricity
+		/// </summary>
+		public const string QUERY_ID_SELLING_ELECTRICITY = "selling_electricity";
 	}
 }
